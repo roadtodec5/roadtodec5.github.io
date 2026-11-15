@@ -28,6 +28,7 @@ button{font-family:inherit}
 .btn{font:700 16px "Figtree",sans-serif;border-radius:12px;border:1px solid var(--gold);background:rgba(0,0,0,.2);color:var(--cream);padding:11px 14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px}
 .btn.primary{background:linear-gradient(#ffe08a,#e0a93c);color:var(--ink);border-color:#fff3c4}
 .btn:active{transform:translateY(1px)}
+.btn:disabled{opacity:.45;cursor:default;transform:none}
 .link{background:none;border:0;color:var(--gold2);font:600 14px "Figtree",sans-serif;text-decoration:underline;cursor:pointer;padding:4px}
 /* HUD */
 #hud{position:fixed;left:max(12px,env(safe-area-inset-left,0px));top:calc(12px + env(safe-area-inset-top,0px));padding:8px 14px;display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px}
@@ -76,6 +77,7 @@ button{font-family:inherit}
 #name{font:600 16px "Figtree",sans-serif;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.12);color:var(--cream);text-align:center;-webkit-user-select:text;user-select:text}
 #name::placeholder{color:rgba(255,246,226,.65)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.nameMsg{font-size:14px;font-weight:700;color:var(--gold2);min-height:1.2em;margin-top:-6px}
 .board{background:rgba(0,0,0,.2);border-radius:12px;padding:8px 10px;text-align:left;font-size:15px}
 .board ol{margin:0;padding:0;list-style:none;display:grid;gap:3px}
 .board li{display:grid;grid-template-columns:2.2em 1fr auto;gap:6px;align-items:center;padding:4px 6px;border-radius:8px}
@@ -108,6 +110,8 @@ button{font-family:inherit}
   <h1 class="display gold" data-t="title"></h1>
   <p data-t="lead"></p>
   <div id="days" class="gold"></div>
+  <input id="name" type="text" maxlength="16" autocomplete="given-name" enterkeyhint="go" data-ph="namePh">
+  <div id="nameMsg" class="nameMsg"></div>
   <button id="play" class="btn primary" type="button" style="font-size:19px;padding:13px" disabled data-t="loading"></button>
   <button id="topBtn" class="btn" type="button" data-t="top10"></button>
   <div id="boardStart" class="board" hidden></div>
@@ -130,8 +134,7 @@ button{font-family:inherit}
     <div class="ta">811 W Lincoln Ave, Anaheim, CA 92805</div>
   </div>
   <div id="pick"><span data-t="pick"></span><button type="button" data-time="10">10 AM</button><button type="button" data-time="14">2 PM</button></div>
-  <input id="name" type="text" maxlength="16" autocomplete="off" data-ph="namePh">
-  <button id="post" class="btn primary" type="button" data-t="post"></button>
+  <button id="post" class="btn primary" type="button" data-t="retry" hidden></button>
   <div id="boardWin" class="board" hidden></div>
   <button id="cal" class="btn primary" type="button" data-t="cal"></button>
   <div class="grid2">
@@ -164,7 +167,7 @@ const L={
   go:'Go! Catch all 12!',gift:n=>`GIFT ${n} OF ${GOAL}`,
   winH:"You're all set!",score:(t,b,nb)=>`You caught ${GOAL} gifts in <b>${t}</b>`+(nb?' · New best!':` · Best: ${b}`),
   seeYou:'SEE YOU THERE',seminar:'How Can Jesus Feel Our Love?',date:'Saturday, Dec 5, 2026',both:'10 AM & 2 PM',at:h=>h===10?'10 AM':'2 PM',
-  top10:'🏆 Top 10',post:'🏆 Post my time',posting:'Posting…',rankMsg:n=>`You're #${n}!`,needName:'Type your first name first',
+  top10:'🏆 Top 10',post:'🏆 Post my time',retry:'🏆 Try posting again',posting:'Posting…',rankMsg:n=>`You're #${n}!`,needName:'Your name needs at least 2 letters',lettersOnly:'Letters only, please (no numbers or symbols)',
   boardEmpty:'No times yet. Be the first!',boardErr:"Couldn't load the scores. Try again.",boardLoading:'Loading…',badName:'Please use a different name.',badTime:"That time can't be posted.",
   pick:'My time:',namePh:'Your first name',cal:'📅 Add to my calendar',dir:'📍 Directions',pic:'📸 Save picture',share:'💌 Invite a friend',again:'↻ Play again',gcal:'Use Google Calendar instead',
   pickFirst:'Pick your time first: 10 AM or 2 PM',copied:'Link copied! Paste it to a friend.',saved:'Picture saved',
@@ -192,7 +195,7 @@ const L={
   go:'¡Ya! ¡Atrapa los 12!',gift:n=>`REGALO ${n} DE ${GOAL}`,
   winH:'¡Todo listo!',score:(t,b,nb)=>`Atrapaste ${GOAL} regalos en <b>${t}</b>`+(nb?' · ¡Nuevo récord!':` · Récord: ${b}`),
   seeYou:'¡TE ESPERAMOS!',seminar:'¿Cómo puede Jesús sentir nuestro amor?',date:'Sábado 5 de diciembre de 2026',both:'10:00 a. m. y 2:00 p. m.',at:h=>h===10?'10:00 a. m.':'2:00 p. m.',
-  top10:'🏆 Top 10',post:'🏆 Publicar mi tiempo',posting:'Publicando…',rankMsg:n=>`¡Quedaste #${n}!`,needName:'Primero escribe tu nombre',
+  top10:'🏆 Top 10',post:'🏆 Publicar mi tiempo',retry:'🏆 Intentar publicar otra vez',posting:'Publicando…',rankMsg:n=>`¡Quedaste #${n}!`,needName:'Tu nombre necesita al menos 2 letras',lettersOnly:'Solo letras, por favor (sin números ni símbolos)',
   boardEmpty:'Todavía no hay tiempos. ¡Sé el primero!',boardErr:'No se pudieron cargar los tiempos. Intenta otra vez.',boardLoading:'Cargando…',badName:'Por favor usa otro nombre.',badTime:'Ese tiempo no se puede publicar.',
   pick:'Mi hora:',namePh:'Tu nombre',cal:'📅 Agregar a mi calendario',dir:'📍 Cómo llegar',pic:'📸 Guardar imagen',share:'💌 Invitar a alguien',again:'↻ Jugar otra vez',gcal:'Usar Google Calendar',
   pickFirst:'Primero elige tu hora: 10 a. m. o 2 p. m.',copied:'¡Enlace copiado! Pégalo para un amigo.',saved:'Imagen guardada',
@@ -487,7 +490,8 @@ function applyLang(){const D=tr();document.documentElement.lang=lang;
  document.querySelectorAll('[data-ph]').forEach(el=>el.placeholder=D[el.dataset.ph]);
  document.querySelectorAll('#langs button').forEach(b=>b.classList.toggle('on',b.dataset.l===lang));
  $('#play').textContent=ready?D.play:D.loading;$('#moreBtn').textContent=$('#more').hidden?D.more:D.less;
- if(lastBoard){['#boardStart','#boardWin'].forEach(s=>{if(!$(s).hidden)drawBoard($(s),lastBoard);});}
+ if(lastBoard){['#boardStart','#boardWin'].forEach(s=>{if(!$(s).hidden&&!posting)drawBoard($(s),lastBoard);});}
+ updatePlay();
  const now=new Date(),dd=Math.ceil((new Date(2026,11,5)-new Date(now.getFullYear(),now.getMonth(),now.getDate()))/864e5);$('#days').textContent=D.days(dd);
  $('#count').textContent=`🎁 ${caught} / ${GOAL}`;fillTicket();if(state==='won')showScore();}
 document.querySelectorAll('#langs button').forEach(b=>b.onclick=()=>{lang=b.dataset.l;store.set('lang',lang);applyLang();});
@@ -497,9 +501,9 @@ $('#mute').onclick=()=>{audio();setMute(!muted);};setMute(muted);
 function toast(msg,ms=2600){const t=$('#toast');t.textContent=msg;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',ms);}
 function tip(n,text,ms=3400){$('#tipN').textContent=n||'';$('#tipN').hidden=!n;$('#tipT').textContent=text;$('#tip').classList.add('on');tipTimer=ms/1000;}
 
-function startGame(){audio();state='play';caught=0;tStart=performance.now()/1000;tEnd=0;winT=-1;cheer=0;
+function startGame(){if(nameState()!=='ok'){$('#name').focus();updatePlay();return;}audio();state='play';caught=0;tStart=performance.now()/1000;tEnd=0;winT=-1;cheer=0;
  pool.forEach(p=>{p.state='off';p.g.visible=p.ring.visible=p.dot.visible=false;});placed.forEach(p=>{p.g.visible=false;p.t0=-1;});
- posted=false;myRank=0;myEntry=null;$('#post').hidden=false;$('#post').disabled=false;$('#boardWin').hidden=true;$('#boardStart').hidden=true;
+ posted=false;myRank=0;$('#post').hidden=true;$('#boardWin').hidden=true;$('#boardStart').hidden=true;$('#name').blur();
  player.pos.set(0,0,10);player.vel.set(0,0,0);player.yaw=Math.PI;venueDoors.forEach(m=>m.emissiveIntensity=0);dropAll();whoosh();
  $('#start').hidden=true;$('#win').hidden=true;$('#hud').hidden=false;$('#right').hidden=false;$('#joy').classList.add('show');
  applyLang();tip('',tr().go,2600);chime([72,76,79],.12);}
@@ -525,6 +529,7 @@ function win(){state='won';winT=T;tEnd=performance.now()/1000;const secs=Math.ro
  const prev=parseFloat(store.get('best2')||'0');const nb=!prev||secs<prev;if(nb)store.set('best2',String(secs));win.nb=nb;win.secs=secs;win.best=nb?secs:prev;
  tip(tr().gift(GOAL),tr().teasers[GOAL-1],2800);pool.forEach(p=>{if(p.state==='fall'||p.state==='ground'){p.state='leave';p.t0=T;}});
  setTimeout(()=>chime([72,76,79,84,88,91,96],.2,.11),900);setTimeout(()=>{burst(V(0,8.8,0),160,9);whoosh();},1000);
+ postScore();
  setTimeout(()=>{if(state!=='won')return;$('#joy').classList.remove('show');showScore();fillTicket();$('#win').hidden=false;},3600);}
 function showScore(){$('#score').innerHTML=tr().score(fmtR(win.secs),fmtR(win.best),win.nb);}
 
@@ -533,8 +538,8 @@ $('#name').value=store.get('name')||'';
 pickH=parseInt(store.get('time')||'')||null;
 function fillTicket(){const D=tr(),nm=$('#name').value.trim();$('#tName').hidden=!nm;$('#tName').textContent=nm;
  $('#tTime').textContent=pickH?D.at(pickH):D.both;document.querySelectorAll('#pick button').forEach(b=>b.classList.toggle('on',+b.dataset.time===pickH));}
-$('#name').addEventListener('input',()=>{store.set('name',$('#name').value.trim());fillTicket();});
-$('#name').addEventListener('keydown',e=>e.stopPropagation());
+$('#name').addEventListener('input',()=>{store.set('name',$('#name').value.trim());fillTicket();updatePlay();});
+$('#name').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();startGame();}});
 document.querySelectorAll('#pick button').forEach(b=>b.onclick=()=>{pickH=+b.dataset.time;store.set('time',String(pickH));fillTicket();chime([84],.12);});
 function needTime(){if(pickH)return true;const p=$('#pick');p.classList.remove('nudge');void p.offsetWidth;p.classList.add('nudge');toast(tr().pickFirst);return false;}
 function details(){return (lang==='es'?'Seminario':'Seminar')+': '+tr().seminar+'\n'+EVENT.place+'\n'+EVENT.maps;}
@@ -579,28 +584,37 @@ $('#pic').onclick=()=>{ticketCanvas().toBlob(async b=>{if(!b)return;const f=new 
 
 /* ================= Top 10 board ================= */
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let posted=false,lastBoard=null,myEntry=null,myRank=0;
+let posted=false,posting=false,lastBoard=null,myRank=0;
+/* one random id per phone, so the board shows each player once (their best time) */
+const PID=(()=>{let p=store.get('pid');if(!p||!/^[A-Za-z0-9]{8,40}$/.test(p)){p=Math.random().toString(36).slice(2,12)+Date.now().toString(36);store.set('pid',p);}return p;})();
+/* name filter: same lists as the score script (keep both in sync) */
+const BAD_PART=['fuck','fuk','fck','fvck','phuck','shit','bitch','biatch','cunt','pussy','dick','cock','whore','slut','nigga','nigger','faggot','asshole','dumbass','jackass','bastard','damn','porn','penis','vagina','dildo','horny','retard','idiot','stupid','hitler','puta','puto','pendej','verga','chinga','mierda','culero','cabron','pinche','joto','mamon','estupid','imbecil'];
+const BAD_WORD=['ass','hell','tit','tits','cum','sex','fag','rape','nig','wtf','stfu','cono','pito','pene','caca','poop','butt','crap','loser','dumb','piss','boob','boobs','perra','zorra','marica','nazi','kkk','sht','culo'];
+const normN=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/0/g,'o').replace(/[1!|]/g,'i').replace(/3/g,'e').replace(/[4@]/g,'a').replace(/[5$]/g,'s').replace(/7/g,'t').replace(/8/g,'b');
+const squashN=s=>s.replace(/[^a-z]/g,'').replace(/(.)\1+/g,'$1'),trim3N=s=>s.replace(/(.)\1{2,}/g,'$1$1');
+function isBadName(raw){const n=normN(raw),all=squashN(n);if(BAD_PART.some(w=>all.includes(squashN(w))))return true;
+ const words=n.split(/[^a-z]+/).filter(Boolean).map(trim3N);words.push(trim3N(n.replace(/[^a-z]/g,'')));return BAD_WORD.some(w=>words.includes(trim3N(w)));}
+function nameState(){const v=$('#name').value.trim(),letters=v.replace(/[^\p{L}]/gu,'').length;if(isBadName(v))return'bad';if(/[^\p{L}\p{M} .'\-]/u.test(v))return'chars';if(letters<2)return'short';return'ok';}
+function updatePlay(){const s=nameState(),D=tr();$('#play').disabled=!(ready&&s==='ok');$('#nameMsg').textContent=s==='bad'?D.badName:s==='chars'?D.lettersOnly:(s==='short'&&$('#name').value.trim()?D.needName:'');}
 function drawBoard(el,data){const D=tr();el.hidden=false;
- if(data==='loading'){el.innerHTML=`<div class="msg">${D.boardLoading}</div>`;return;}
+ if(data==='loading'){el.innerHTML=`<div class="msg">${el.id==='boardWin'?D.posting:D.boardLoading}</div>`;return;}
  if(!data){el.innerHTML=`<div class="msg">${D.boardErr}</div>`;return;}
  const you=(el.id==='boardWin'&&myRank)?`<div class="you">${D.rankMsg(myRank)}</div>`:'';
  if(!data.top.length){el.innerHTML=you+`<div class="msg">${D.boardEmpty}</div>`;return;}
- let marked=false;
- el.innerHTML=you+'<ol>'+data.top.map((e,i)=>{const me=!marked&&myEntry&&e.n===myEntry.n&&Math.abs(e.t-myEntry.t)<1e-4;if(me)marked=true;
-  return `<li class="${me?'me':''}"><span class="r">${i+1}</span><span>${esc(e.n)}</span><span class="t">${fmtR(e.t)}</span></li>`;}).join('')+'</ol>';}
+ el.innerHTML=you+'<ol>'+data.top.map((e,i)=>`<li class="${e.me?'me':''}"><span class="r">${i+1}</span><span>${esc(e.n)}</span><span class="t">${fmtR(e.t)}</span></li>`).join('')+'</ol>';}
 async function loadBoard(el){drawBoard(el,'loading');
- try{const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),12000);const r=await fetch(BOARD_URL,{signal:ctl.signal});clearTimeout(to);const j=await r.json();if(!j.ok)throw 0;lastBoard=j;drawBoard(el,j);}
+ try{const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),12000);const r=await fetch(BOARD_URL+'?pid='+encodeURIComponent(PID),{signal:ctl.signal});clearTimeout(to);const j=await r.json();if(!j.ok)throw 0;lastBoard=j;drawBoard(el,j);}
  catch(e){drawBoard(el,null);}}
 $('#topBtn').onclick=()=>{const el=$('#boardStart');if(!el.hidden){el.hidden=true;return;}loadBoard(el);};
-$('#post').onclick=async()=>{const D=tr(),nm=$('#name').value.trim();
- if(posted)return;if(!nm){toast(D.needName);$('#name').focus();return;}
- const b=$('#post');b.disabled=true;b.textContent=D.posting;
+/* the finish screen posts the time by itself; the button only shows if that fails */
+async function postScore(){const D=tr(),nm=$('#name').value.trim(),b=$('#post');if(posted||posting)return;posting=true;b.hidden=true;drawBoard($('#boardWin'),'loading');
  try{const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),15000);
-  const r=await fetch(BOARD_URL,{method:'POST',body:JSON.stringify({name:nm,time:win.secs,lang}),signal:ctl.signal});clearTimeout(to);const j=await r.json();
-  if(!j.ok){toast(j.why==='name'?D.badName:j.why==='time'?D.badTime:D.boardErr);b.disabled=false;b.textContent=D.post;return;}
-  posted=true;myRank=j.rank;myEntry={n:j.top.find(e=>Math.abs(e.t-Math.round(win.secs*1e4)/1e4)<1e-4)?.n||nm,t:Math.round(win.secs*1e4)/1e4};lastBoard=j;
-  b.hidden=true;drawBoard($('#boardWin'),j);chime([79,84,88],.16);}
- catch(e){toast(D.boardErr);b.disabled=false;b.textContent=D.post;}};
+  const r=await fetch(BOARD_URL,{method:'POST',body:JSON.stringify({name:nm,time:win.secs,lang,pid:PID}),signal:ctl.signal});clearTimeout(to);const j=await r.json();
+  if(!j.ok){if(j.why==='time'||j.why==='name'){$('#boardWin').innerHTML=`<div class="msg">${j.why==='name'?D.badName:D.badTime}</div>`;posted=true;}else{drawBoard($('#boardWin'),null);b.hidden=false;}return;}
+  posted=true;myRank=j.rank;lastBoard=j;drawBoard($('#boardWin'),j);chime([79,84,88],.16);}
+ catch(e){drawBoard($('#boardWin'),null);b.hidden=false;}
+ finally{posting=false;}}
+$('#post').onclick=postScore;
 
 /* ================= main loop ================= */
 let ready=false,last=performance.now();
@@ -656,8 +670,8 @@ function step(dt){
 /* ================= boot ================= */
 resize();makeSharedTex();buildTown();setupActors();applyLang();
 requestAnimationFrame(frame);
-(document.fonts?document.fonts.ready:Promise.resolve()).then(()=>{ready=true;$('#play').disabled=false;applyLang();});
-setTimeout(()=>{if(!ready){ready=true;$('#play').disabled=false;applyLang();}},2500);
+(document.fonts?document.fonts.ready:Promise.resolve()).then(()=>{ready=true;applyLang();updatePlay();});
+setTimeout(()=>{if(!ready){ready=true;applyLang();updatePlay();}},2500);
 window.__game={tick(s){const n=Math.round(s/.033);for(let i=0;i<n;i++){T+=.033;step(.033);}last=performance.now();composer.render();return T;},get state(){return state;},get caught(){return caught;},start:startGame,dbg(){return{T,nextSpawn,player:[player.pos.x,player.pos.z],pool:pool.map(p=>[p.state,+p.x.toFixed(1),+p.z.toFixed(1),+p.y.toFixed(1)])};},
  /* test hook: catch the next present right away */ grab(){const p=pool.find(q=>q.state==='fall'||q.state==='ground');if(p){player.pos.set(p.x,0,p.z);player.vel.set(0,0,0);if(p.state==='fall')p.t0=Math.min(p.t0,T-FALL*.9);}},
  winNow(){while(caught<GOAL){const p=pool.find(q=>q.state==='fall'||q.state==='ground');if(!p)break;p.y=0;catchGift(p);}}};
