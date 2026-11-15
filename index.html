@@ -76,6 +76,15 @@ button{font-family:inherit}
 #name{font:600 16px "Figtree",sans-serif;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.12);color:var(--cream);text-align:center;-webkit-user-select:text;user-select:text}
 #name::placeholder{color:rgba(255,246,226,.65)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.board{background:rgba(0,0,0,.2);border-radius:12px;padding:8px 10px;text-align:left;font-size:15px}
+.board ol{margin:0;padding:0;list-style:none;display:grid;gap:3px}
+.board li{display:grid;grid-template-columns:2.2em 1fr auto;gap:6px;align-items:center;padding:4px 6px;border-radius:8px}
+.board li.me{background:var(--gold2);color:var(--ink)}
+.board .r{font-weight:800;color:var(--gold2)}
+.board li.me .r{color:var(--ink)}
+.board .t{font-variant-numeric:tabular-nums;font-weight:700}
+.board .msg{text-align:center;opacity:.85;padding:4px}
+.board .you{text-align:center;font-weight:800;color:var(--gold2);padding:2px 0 6px;font-size:16px}
 #toast{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);padding:10px 18px;font-weight:700;display:none;z-index:9;max-width:86vw;text-align:center}
 </style>
 <script type="importmap">
@@ -100,6 +109,8 @@ button{font-family:inherit}
   <p data-t="lead"></p>
   <div id="days" class="gold"></div>
   <button id="play" class="btn primary" type="button" style="font-size:19px;padding:13px" disabled data-t="loading"></button>
+  <button id="topBtn" class="btn" type="button" data-t="top10"></button>
+  <div id="boardStart" class="board" hidden></div>
   <button id="moreBtn" class="link" type="button" data-t="more"></button>
   <div id="more" hidden><div data-t="how1"></div><div data-t="how2"></div><div data-t="how3"></div></div>
 </div></div>
@@ -119,7 +130,9 @@ button{font-family:inherit}
     <div class="ta">811 W Lincoln Ave, Anaheim, CA 92805</div>
   </div>
   <div id="pick"><span data-t="pick"></span><button type="button" data-time="10">10 AM</button><button type="button" data-time="14">2 PM</button></div>
-  <input id="name" type="text" maxlength="24" autocomplete="off" data-ph="namePh">
+  <input id="name" type="text" maxlength="16" autocomplete="off" data-ph="namePh">
+  <button id="post" class="btn primary" type="button" data-t="post"></button>
+  <div id="boardWin" class="board" hidden></div>
   <button id="cal" class="btn primary" type="button" data-t="cal"></button>
   <div class="grid2">
     <button id="dir" class="btn" type="button" data-t="dir"></button>
@@ -151,7 +164,9 @@ const L={
   go:'Go! Catch all 12!',gift:n=>`GIFT ${n} OF ${GOAL}`,
   winH:"You're all set!",score:(t,b,nb)=>`You caught ${GOAL} gifts in <b>${t}</b>`+(nb?' · New best!':` · Best: ${b}`),
   seeYou:'SEE YOU THERE',seminar:'How Can Jesus Feel Our Love?',date:'Saturday, Dec 5, 2026',both:'10 AM & 2 PM',at:h=>h===10?'10 AM':'2 PM',
-  pick:'My time:',namePh:'Your first name (optional)',cal:'📅 Add to my calendar',dir:'📍 Directions',pic:'📸 Save picture',share:'💌 Invite a friend',again:'↻ Play again',gcal:'Use Google Calendar instead',
+  top10:'🏆 Top 10',post:'🏆 Post my time',posting:'Posting…',rankMsg:n=>`You're #${n}!`,needName:'Type your first name first',
+  boardEmpty:'No times yet. Be the first!',boardErr:"Couldn't load the scores. Try again.",boardLoading:'Loading…',badName:'Please use a different name.',badTime:"That time can't be posted.",
+  pick:'My time:',namePh:'Your first name',cal:'📅 Add to my calendar',dir:'📍 Directions',pic:'📸 Save picture',share:'💌 Invite a friend',again:'↻ Play again',gcal:'Use Google Calendar instead',
   pickFirst:'Pick your time first: 10 AM or 2 PM',copied:'Link copied! Paste it to a friend.',saved:'Picture saved',
   shareText:'I\'m going to "How Can Jesus Feel Our Love?" on Sat, Dec 5 in Anaheim. Play this and come with me!',
   calTitle:'How Can Jesus Feel Our Love? (Dec 5 Seminar)',
@@ -177,7 +192,9 @@ const L={
   go:'¡Ya! ¡Atrapa los 12!',gift:n=>`REGALO ${n} DE ${GOAL}`,
   winH:'¡Todo listo!',score:(t,b,nb)=>`Atrapaste ${GOAL} regalos en <b>${t}</b>`+(nb?' · ¡Nuevo récord!':` · Récord: ${b}`),
   seeYou:'¡TE ESPERAMOS!',seminar:'¿Cómo puede Jesús sentir nuestro amor?',date:'Sábado 5 de diciembre de 2026',both:'10:00 a. m. y 2:00 p. m.',at:h=>h===10?'10:00 a. m.':'2:00 p. m.',
-  pick:'Mi hora:',namePh:'Tu nombre (opcional)',cal:'📅 Agregar a mi calendario',dir:'📍 Cómo llegar',pic:'📸 Guardar imagen',share:'💌 Invitar a alguien',again:'↻ Jugar otra vez',gcal:'Usar Google Calendar',
+  top10:'🏆 Top 10',post:'🏆 Publicar mi tiempo',posting:'Publicando…',rankMsg:n=>`¡Quedaste #${n}!`,needName:'Primero escribe tu nombre',
+  boardEmpty:'Todavía no hay tiempos. ¡Sé el primero!',boardErr:'No se pudieron cargar los tiempos. Intenta otra vez.',boardLoading:'Cargando…',badName:'Por favor usa otro nombre.',badTime:'Ese tiempo no se puede publicar.',
+  pick:'Mi hora:',namePh:'Tu nombre',cal:'📅 Agregar a mi calendario',dir:'📍 Cómo llegar',pic:'📸 Guardar imagen',share:'💌 Invitar a alguien',again:'↻ Jugar otra vez',gcal:'Usar Google Calendar',
   pickFirst:'Primero elige tu hora: 10 a. m. o 2 p. m.',copied:'¡Enlace copiado! Pégalo para un amigo.',saved:'Imagen guardada',
   shareText:'Voy a "¿Cómo puede Jesús sentir nuestro amor?" el sábado 5 de diciembre en Anaheim. ¡Juega esto y ven conmigo!',
   calTitle:'¿Cómo puede Jesús sentir nuestro amor? (Seminario 5 de dic)',
@@ -198,6 +215,9 @@ const L={
 const EVENT={startsUTC:{10:'20261205T180000Z',14:'20261205T220000Z'},endsUTC:{10:'20261205T200000Z',14:'20261206T000000Z'},
  place:'William A. Cook Auditorium, 811 W Lincoln Ave, Anaheim, CA 92805',
  maps:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent('William A. Cook Auditorium, 811 W Lincoln Ave, Anaheim, CA 92805')};
+
+/* Top 10 board: a Google Apps Script web app that saves to a Google Sheet (delete a row there to remove a score) */
+const BOARD_URL='https://script.google.com/macros/s/AKfycbyp-SflexkKuxrCOHjSblEOLap57ZfhLNeBNPj1wP2acPfRStDymC9iT_XmTX9Mk55ZDA/exec';
 
 /* ================= tiny storage (per device, optional) ================= */
 const store={get(k){try{return localStorage.getItem('gc_'+k);}catch(e){return null;}},set(k,v){try{localStorage.setItem('gc_'+k,v);}catch(e){}}};
@@ -222,7 +242,7 @@ const DISPLAY='"Marcellus",Georgia,serif';
 function rrect(g,x,y,w,h,r){g.beginPath();g.moveTo(x+r,y);g.arcTo(x+w,y,x+w,y+h,r);g.arcTo(x+w,y+h,x,y+h,r);g.arcTo(x,y+h,x,y,r);g.arcTo(x,y,x+w,y,r);g.closePath();}
 const mg=list=>mergeGeometries(list.map(g=>g.index?g.toNonIndexed():g));
 function paint(geo,hex){const c=new THREE.Color(hex),n=geo.attributes.position.count,a=new Float32Array(n*3);for(let i=0;i<n;i++){a[i*3]=c.r;a[i*3+1]=c.g;a[i*3+2]=c.b;}geo.setAttribute('color',new THREE.BufferAttribute(a,3));return geo;}
-const fmtR=s=>{s=Math.max(0,s);const t=Math.floor(s*1e4)/1e4,m=Math.floor(t/60);return m+':'+(t-m*60).toFixed(4).padStart(7,'0');};
+const fmtR=s=>{s=Math.max(0,s);const t=Math.floor(s*1e4+1e-6)/1e4,m=Math.floor(t/60);return m+':'+(t-m*60).toFixed(4).padStart(7,'0');};
 
 /* ================= textures / materials ================= */
 let starTex,groundTex,paveTex;
@@ -467,6 +487,7 @@ function applyLang(){const D=tr();document.documentElement.lang=lang;
  document.querySelectorAll('[data-ph]').forEach(el=>el.placeholder=D[el.dataset.ph]);
  document.querySelectorAll('#langs button').forEach(b=>b.classList.toggle('on',b.dataset.l===lang));
  $('#play').textContent=ready?D.play:D.loading;$('#moreBtn').textContent=$('#more').hidden?D.more:D.less;
+ if(lastBoard){['#boardStart','#boardWin'].forEach(s=>{if(!$(s).hidden)drawBoard($(s),lastBoard);});}
  const now=new Date(),dd=Math.ceil((new Date(2026,11,5)-new Date(now.getFullYear(),now.getMonth(),now.getDate()))/864e5);$('#days').textContent=D.days(dd);
  $('#count').textContent=`🎁 ${caught} / ${GOAL}`;fillTicket();if(state==='won')showScore();}
 document.querySelectorAll('#langs button').forEach(b=>b.onclick=()=>{lang=b.dataset.l;store.set('lang',lang);applyLang();});
@@ -478,6 +499,7 @@ function tip(n,text,ms=3400){$('#tipN').textContent=n||'';$('#tipN').hidden=!n;$
 
 function startGame(){audio();state='play';caught=0;tStart=performance.now()/1000;tEnd=0;winT=-1;cheer=0;
  pool.forEach(p=>{p.state='off';p.g.visible=p.ring.visible=p.dot.visible=false;});placed.forEach(p=>{p.g.visible=false;p.t0=-1;});
+ posted=false;myRank=0;myEntry=null;$('#post').hidden=false;$('#post').disabled=false;$('#boardWin').hidden=true;$('#boardStart').hidden=true;
  player.pos.set(0,0,10);player.vel.set(0,0,0);player.yaw=Math.PI;venueDoors.forEach(m=>m.emissiveIntensity=0);dropAll();whoosh();
  $('#start').hidden=true;$('#win').hidden=true;$('#hud').hidden=false;$('#right').hidden=false;$('#joy').classList.add('show');
  applyLang();tip('',tr().go,2600);chime([72,76,79],.12);}
@@ -499,7 +521,7 @@ function catchGift(p){p.state='pop';p.t0=T;const n=caught;caught++;cheer=1;
  $('#count').textContent=`🎁 ${caught} / ${GOAL}`;
  if(caught>=GOAL){win();}else tip(tr().gift(caught),tr().teasers[n]);}
 
-function win(){state='won';winT=T;tEnd=performance.now()/1000;const secs=tEnd-tStart;
+function win(){state='won';winT=T;tEnd=performance.now()/1000;const secs=Math.round((tEnd-tStart)*1e4)/1e4;
  const prev=parseFloat(store.get('best2')||'0');const nb=!prev||secs<prev;if(nb)store.set('best2',String(secs));win.nb=nb;win.secs=secs;win.best=nb?secs:prev;
  tip(tr().gift(GOAL),tr().teasers[GOAL-1],2800);pool.forEach(p=>{if(p.state==='fall'||p.state==='ground'){p.state='leave';p.t0=T;}});
  setTimeout(()=>chime([72,76,79,84,88,91,96],.2,.11),900);setTimeout(()=>{burst(V(0,8.8,0),160,9);whoosh();},1000);
@@ -554,6 +576,31 @@ function ticketCanvas(){const D=tr(),W=1080,H=1350,c=document.createElement('can
 $('#pic').onclick=()=>{ticketCanvas().toBlob(async b=>{if(!b)return;const f=new File([b],'dec5-ticket.png',{type:'image/png'});
  if(PHONE&&navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f]});return;}catch(e){if(e&&e.name==='AbortError')return;}}
  saveBlob(b,'dec5-ticket.png');toast(tr().saved);},'image/png');};
+
+/* ================= Top 10 board ================= */
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let posted=false,lastBoard=null,myEntry=null,myRank=0;
+function drawBoard(el,data){const D=tr();el.hidden=false;
+ if(data==='loading'){el.innerHTML=`<div class="msg">${D.boardLoading}</div>`;return;}
+ if(!data){el.innerHTML=`<div class="msg">${D.boardErr}</div>`;return;}
+ const you=(el.id==='boardWin'&&myRank)?`<div class="you">${D.rankMsg(myRank)}</div>`:'';
+ if(!data.top.length){el.innerHTML=you+`<div class="msg">${D.boardEmpty}</div>`;return;}
+ let marked=false;
+ el.innerHTML=you+'<ol>'+data.top.map((e,i)=>{const me=!marked&&myEntry&&e.n===myEntry.n&&Math.abs(e.t-myEntry.t)<1e-4;if(me)marked=true;
+  return `<li class="${me?'me':''}"><span class="r">${i+1}</span><span>${esc(e.n)}</span><span class="t">${fmtR(e.t)}</span></li>`;}).join('')+'</ol>';}
+async function loadBoard(el){drawBoard(el,'loading');
+ try{const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),12000);const r=await fetch(BOARD_URL,{signal:ctl.signal});clearTimeout(to);const j=await r.json();if(!j.ok)throw 0;lastBoard=j;drawBoard(el,j);}
+ catch(e){drawBoard(el,null);}}
+$('#topBtn').onclick=()=>{const el=$('#boardStart');if(!el.hidden){el.hidden=true;return;}loadBoard(el);};
+$('#post').onclick=async()=>{const D=tr(),nm=$('#name').value.trim();
+ if(posted)return;if(!nm){toast(D.needName);$('#name').focus();return;}
+ const b=$('#post');b.disabled=true;b.textContent=D.posting;
+ try{const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),15000);
+  const r=await fetch(BOARD_URL,{method:'POST',body:JSON.stringify({name:nm,time:win.secs,lang}),signal:ctl.signal});clearTimeout(to);const j=await r.json();
+  if(!j.ok){toast(j.why==='name'?D.badName:j.why==='time'?D.badTime:D.boardErr);b.disabled=false;b.textContent=D.post;return;}
+  posted=true;myRank=j.rank;myEntry={n:j.top.find(e=>Math.abs(e.t-Math.round(win.secs*1e4)/1e4)<1e-4)?.n||nm,t:Math.round(win.secs*1e4)/1e4};lastBoard=j;
+  b.hidden=true;drawBoard($('#boardWin'),j);chime([79,84,88],.16);}
+ catch(e){toast(D.boardErr);b.disabled=false;b.textContent=D.post;}};
 
 /* ================= main loop ================= */
 let ready=false,last=performance.now();
