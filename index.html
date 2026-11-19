@@ -28,7 +28,7 @@ button{font-family:inherit}
 .btn{font:700 16px "Figtree",sans-serif;border-radius:12px;border:1px solid var(--gold);background:rgba(0,0,0,.2);color:var(--cream);padding:11px 14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px}
 .btn.primary{background:linear-gradient(#ffe08a,#e0a93c);color:var(--ink);border-color:#fff3c4}
 .btn:active{transform:translateY(1px)}
-#signup{font:800 clamp(18px,5.4vw,23px)/1.15 "Figtree",sans-serif;padding:17px 12px;border-radius:16px;border:3px solid #fff;background:linear-gradient(#fff0a8,#ffc934 55%,#f0a41c);color:var(--ink);gap:10px;box-shadow:0 0 0 0 rgba(255,224,138,.85),0 6px 16px rgba(40,4,8,.5);animation:callout 1.3s ease-in-out infinite}
+#signup{font:800 clamp(17px,4.9vw,23px)/1.15 "Figtree",sans-serif;padding:17px 8px;text-wrap:balance;border-radius:16px;border:3px solid #fff;background:linear-gradient(#fff0a8,#ffc934 55%,#f0a41c);color:var(--ink);gap:6px;box-shadow:0 0 0 0 rgba(255,224,138,.85),0 6px 16px rgba(40,4,8,.5);animation:callout 1.3s ease-in-out infinite}
 #signup .hand{font-size:1.25em;animation:poke .65s ease-in-out infinite alternate}
 #signup .hand.r{animation-name:pokeR}
 @keyframes callout{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,224,138,.85),0 6px 16px rgba(40,4,8,.5)}50%{transform:scale(1.045)}100%{transform:scale(1);box-shadow:0 0 0 16px rgba(255,224,138,0),0 6px 16px rgba(40,4,8,.5)}}
@@ -66,21 +66,32 @@ button{font-family:inherit}
 #win h2{margin:0;font-size:34px;line-height:1.05}
 #score{font-size:15px;font-weight:600}
 #score b{color:var(--gold2)}
-.ticket{position:relative;background:#fff6e2;color:var(--ink);border-radius:14px;padding:14px 16px 14px;text-align:center;display:grid;gap:4px;box-shadow:inset 0 0 0 2px #e0a93c}
-.ticket:before,.ticket:after{content:"";position:absolute;top:50%;width:22px;height:22px;margin-top:-11px;border-radius:50%;background:var(--wine2)}
-.ticket:before{left:-11px}.ticket:after{right:-11px}
-.ticket .tk{font-size:11.5px;letter-spacing:.2em;font-weight:800;color:#a61422}
-.ticket .tn{font:400 26px "Marcellus",Georgia,serif;color:#760b16;min-height:0}
-.ticket .tt{font:400 21px "Marcellus",Georgia,serif;line-height:1.15;color:#3d070d}
-.ticket hr{border:0;border-top:2px dashed #e0b866;margin:6px 4px}
-.ticket .td{font-weight:800;font-size:16px}
-.ticket .tv{font-weight:700;font-size:14.5px}
-.ticket .ta{font-size:13px;opacity:.8}
-#pick{display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap;font-weight:700;font-size:14.5px}
-#pick button{font:800 15px "Figtree",sans-serif;border-radius:999px;border:2px solid var(--gold);background:transparent;color:var(--cream);padding:6px 14px;cursor:pointer}
-#pick button.on{background:var(--gold2);color:var(--ink);border-color:#fff3c4}
-#pick.nudge button{animation:nudge .5s 2}
-@keyframes nudge{50%{transform:scale(1.12)}}
+#claim{background:rgba(0,0,0,.24);border:2px dashed var(--gold2);border-radius:16px;padding:14px 14px 12px;display:grid;gap:9px;justify-items:center}
+#claim .left{font-size:12.5px;letter-spacing:.18em;font-weight:800;color:#fff;background:#d81e2c;border-radius:999px;padding:4px 12px}
+#claim .gift{position:relative;line-height:1;margin:2px 0 0}
+#claim .gift .g{display:inline-block;font-size:64px;transform-origin:50% 90%;animation:wob 1.5s ease-in-out infinite;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35))}
+#claim .gift .tag{position:absolute;left:68%;top:8%;white-space:nowrap;background:var(--cream);color:var(--ink);font:400 15px "Marcellus",Georgia,serif;padding:4px 10px;border-radius:8px 8px 8px 0;transform:rotate(-6deg);box-shadow:0 2px 6px rgba(0,0,0,.3);max-width:34vw;overflow:hidden;text-overflow:ellipsis}
+#claim .ch{font-size:23px;line-height:1.12;color:var(--gold2)}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:5px;text-align:left;font-weight:700;font-size:15.5px}
+.steps li{display:flex;align-items:center;gap:9px;opacity:.8}
+.steps i{flex:none;width:22px;height:22px;border-radius:6px;border:2px solid var(--gold2);display:grid;place-items:center;font-style:normal;font-weight:800;font-size:15px;color:var(--ink);box-sizing:border-box}
+.steps li.ok i{background:var(--gold2)}
+.steps li.ok span{text-decoration:line-through;text-decoration-color:rgba(255,246,226,.55)}
+#step3{opacity:1;font-size:17.5px;color:#fff}
+#step3 i{border-color:#fff;animation:box 1s ease-in-out infinite}
+#claim.done #step3 i{background:var(--gold2);border-color:var(--gold2);animation:none}
+#claim.done #step3 i:after{content:"✓"}
+#claim.done #signup,#claim.done #signup .hand,#claim.done .gift .g{animation:none}
+#claim .already{font-size:14px;font-weight:700;line-height:1.35;color:var(--cream)}
+#claim .when{font-size:12.5px;line-height:1.4;opacity:.8}
+#signup{width:100%}
+#claim #signup.shake{animation:shake .5s 2}
+.btn.love{font-size:17px;padding:13px 14px;border:2px solid var(--gold2);background:rgba(255,255,255,.1)}
+.btn.love.glow{animation:callout 1.3s ease-in-out infinite;background:linear-gradient(#ffe08a,#e0a93c);color:var(--ink);border-color:#fff3c4}
+@keyframes wob{0%,100%{transform:rotate(-7deg)}25%{transform:rotate(7deg) scale(1.06)}50%{transform:rotate(-5deg)}75%{transform:rotate(6deg) scale(1.06)}}
+@keyframes box{50%{box-shadow:0 0 0 6px rgba(255,255,255,.28);transform:scale(1.12)}}
+@keyframes shake{20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
+@media (prefers-reduced-motion:reduce){#claim .gift .g,#step3 i,.btn.love.glow{animation:none}}
 #name{font:600 16px "Figtree",sans-serif;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.12);color:var(--cream);text-align:center;-webkit-user-select:text;user-select:text}
 #name::placeholder{color:rgba(255,246,226,.65)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -94,7 +105,7 @@ button{font-family:inherit}
 .board .t{font-variant-numeric:tabular-nums;font-weight:700}
 .board .msg{text-align:center;opacity:.85;padding:4px}
 .board .you{text-align:center;font-weight:800;color:var(--gold2);padding:2px 0 6px;font-size:16px}
-#toast{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);padding:10px 18px;font-weight:700;display:none;z-index:9;max-width:86vw;text-align:center}
+#toast{position:fixed;left:50%;bottom:calc(30px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);padding:10px 18px;font-weight:700;display:none;z-index:9;max-width:86vw;text-align:center;pointer-events:none}
 </style>
 <script type="importmap">
 {"imports":{
@@ -128,30 +139,28 @@ button{font-family:inherit}
 
 <div id="win" class="ov" hidden><div class="card">
   <div class="kick" data-t="kicker"></div>
-  <h2 class="display gold" data-t="winH"></h2>
+  <h2 class="display gold" id="winH"></h2>
   <div id="score"></div>
-  <div class="ticket" id="ticket">
-    <div class="tk" data-t="seeYou"></div>
-    <div class="tn" id="tName" hidden></div>
-    <div class="tt" data-t="seminar"></div>
-    <hr>
-    <div class="td" data-t="date"></div>
-    <div class="td" id="tTime"></div>
-    <div class="tv">William A. Cook Auditorium</div>
-    <div class="ta">811 W Lincoln Ave, Anaheim, CA 92805</div>
+  <div id="claim">
+    <div class="left" data-t="oneLeft"></div>
+    <div class="gift"><span class="g">🎁</span><span class="tag" id="giftTag"></span></div>
+    <div class="ch display" data-t="claimH"></div>
+    <ul class="steps">
+      <li class="ok"><i>✓</i><span data-t="step1"></span></li>
+      <li class="ok"><i>✓</i><span data-t="step2"></span></li>
+      <li id="step3"><i></i><span data-t="step3"></span></li>
+    </ul>
+    <button id="signup" class="btn primary" type="button"><span class="hand">👉</span><span data-t="signup"></span><span class="hand r">👈</span></button>
+    <div class="already" data-t="already"></div>
+    <div class="when" data-t="when"></div>
   </div>
-  <button id="signup" class="btn primary" type="button"><span class="hand">👉</span><span data-t="signup"></span><span class="hand r">👈</span></button>
-  <div id="pick"><span data-t="pick"></span><button type="button" data-time="10">10 AM</button><button type="button" data-time="14">2 PM</button></div>
+  <button id="share" class="btn love" type="button" data-t="share"></button>
   <button id="post" class="btn primary" type="button" data-t="retry" hidden></button>
   <div id="boardWin" class="board" hidden></div>
-  <button id="cal" class="btn" type="button" data-t="cal"></button>
   <div class="grid2">
     <button id="dir" class="btn" type="button" data-t="dir"></button>
-    <button id="pic" class="btn" type="button" data-t="pic"></button>
-    <button id="share" class="btn" type="button" data-t="share"></button>
     <button id="again" class="btn" type="button" data-t="again"></button>
   </div>
-  <button id="gcal" class="link" type="button" data-t="gcal"></button>
 </div></div>
 
 <script type="module">
@@ -173,12 +182,13 @@ const L={
   how3:'🕹️ Walk with the joystick, or W A S D / the arrow keys.',
   days:n=>n>1?`Dec 5 is ${n} days away`:n===1?'Dec 5 is tomorrow!':n===0?'Dec 5 is today!':'',
   go:'Go! Catch all 12!',gift:n=>`GIFT ${n} OF ${GOAL}`,
-  winH:"You're all set!",score:(t,b,nb)=>`You caught ${GOAL} gifts in <b>${t}</b>`+(nb?' · New best!':` · Best: ${b}`),
+  winHn:n=>n?`You lit the tree, ${n}!`:'You lit the tree!',oneLeft:'ONE GIFT LEFT TO OPEN',claimH:'Your ticket is still waiting!',tag:n=>'For: '+(n||'You'),step1:'Caught 12 gifts',step2:'Lit the tree',step3:'Get your ticket',
+  already:"Already signed up? You still need your ticket. Tap the button so you don't forget!",when:'Sat, Dec 5, 2026 · 10 AM & 2 PM · William A. Cook Auditorium, Anaheim',waitT:'Wait! Get your ticket first 👆 (tap again to play)',score:(t,b,nb)=>`You caught ${GOAL} gifts in <b>${t}</b>`+(nb?' · New best!':` · Best: ${b}`),
   seeYou:'SEE YOU THERE',seminar:'How Can Jesus Feel Our Love?',date:'Saturday, Dec 5, 2026',both:'10 AM & 2 PM',at:h=>h===10?'10 AM':'2 PM',
   top10:'🏆 Top 10',post:'🏆 Post my time',retry:'🏆 Try posting again',posting:'Posting…',rankMsg:n=>`You're #${n}!`,needName:'Your name needs at least 2 letters',lettersOnly:'Letters only, please (no numbers or symbols)',
   boardEmpty:'No times yet. Be the first!',boardErr:"Couldn't load the scores. Try again.",boardLoading:'Loading…',badName:'Please use a different name.',badTime:"That time can't be posted.",
-  pick:'My time:',namePh:'Your first name',signup:'CLICK HERE to get your Ticket!',cal:'📅 Add to my calendar',dir:'📍 Directions',pic:'📸 Save picture',share:'💌 Invite a friend',again:'↻ Play again',gcal:'Use Google Calendar instead',
-  pickFirst:'Pick your time first: 10 AM or 2 PM',copied:'Link copied! Paste it to a friend.',saved:'Picture saved',
+  namePh:'Your first name',signup:'CLICK HERE to get your Ticket!',dir:'📍 Directions',share:'💌 Share the Love: invite a friend',again:'↻ Play again',
+  copied:'Link copied! Paste it to a friend.',
   shareText:'I\'m going to "How Can Jesus Feel Our Love?" on Sat, Dec 5 in Anaheim. Play this and come with me!',
   calTitle:'How Can Jesus Feel Our Love? (Dec 5 Seminar)',
   teasers:[
@@ -201,12 +211,13 @@ const L={
   how3:'🕹️ Camina con el joystick, o con W A S D / las flechas.',
   days:n=>n>1?`Faltan ${n} días para el 5 de diciembre`:n===1?'¡El 5 de diciembre es mañana!':n===0?'¡El 5 de diciembre es hoy!':'',
   go:'¡Ya! ¡Atrapa los 12!',gift:n=>`REGALO ${n} DE ${GOAL}`,
-  winH:'¡Todo listo!',score:(t,b,nb)=>`Atrapaste ${GOAL} regalos en <b>${t}</b>`+(nb?' · ¡Nuevo récord!':` · Récord: ${b}`),
+  winHn:n=>n?`¡Encendiste el árbol, ${n}!`:'¡Encendiste el árbol!',oneLeft:'FALTA UN REGALO POR ABRIR',claimH:'¡Tu boleto te está esperando!',tag:n=>'Para: '+(n||'Ti'),step1:'Atrapaste 12 regalos',step2:'Encendiste el árbol',step3:'Obtén tu boleto',
+  already:'¿Ya te inscribiste? Todavía necesitas tu boleto. ¡Toca el botón para que no se te olvide!',when:'Sáb. 5 de dic. de 2026 · 10:00 a. m. y 2:00 p. m. · William A. Cook Auditorium, Anaheim',waitT:'¡Espera! Primero obtén tu boleto 👆 (toca otra vez para jugar)',score:(t,b,nb)=>`Atrapaste ${GOAL} regalos en <b>${t}</b>`+(nb?' · ¡Nuevo récord!':` · Récord: ${b}`),
   seeYou:'¡TE ESPERAMOS!',seminar:'¿Cómo puede Jesús sentir nuestro amor?',date:'Sábado 5 de diciembre de 2026',both:'10:00 a. m. y 2:00 p. m.',at:h=>h===10?'10:00 a. m.':'2:00 p. m.',
   top10:'🏆 Top 10',post:'🏆 Publicar mi tiempo',retry:'🏆 Intentar publicar otra vez',posting:'Publicando…',rankMsg:n=>`¡Quedaste #${n}!`,needName:'Tu nombre necesita al menos 2 letras',lettersOnly:'Solo letras, por favor (sin números ni símbolos)',
   boardEmpty:'Todavía no hay tiempos. ¡Sé el primero!',boardErr:'No se pudieron cargar los tiempos. Intenta otra vez.',boardLoading:'Cargando…',badName:'Por favor usa otro nombre.',badTime:'Ese tiempo no se puede publicar.',
-  pick:'Mi hora:',namePh:'Tu nombre',signup:'¡HAZ CLIC AQUÍ para obtener tu boleto!',cal:'📅 Agregar a mi calendario',dir:'📍 Cómo llegar',pic:'📸 Guardar imagen',share:'💌 Invitar a alguien',again:'↻ Jugar otra vez',gcal:'Usar Google Calendar',
-  pickFirst:'Primero elige tu hora: 10 a. m. o 2 p. m.',copied:'¡Enlace copiado! Pégalo para un amigo.',saved:'Imagen guardada',
+  namePh:'Tu nombre',signup:'¡HAZ CLIC AQUÍ para obtener tu boleto!',dir:'📍 Cómo llegar',share:'💌 Comparte el amor: invita a un amigo',again:'↻ Jugar otra vez',
+  copied:'¡Enlace copiado! Pégalo para un amigo.',
   shareText:'Voy a "¿Cómo puede Jesús sentir nuestro amor?" el sábado 5 de diciembre en Anaheim. ¡Juega esto y ven conmigo!',
   calTitle:'¿Cómo puede Jesús sentir nuestro amor? (Seminario 5 de dic)',
   teasers:[
@@ -492,7 +503,7 @@ addEventListener('blur',()=>{keys.clear();joyV={x:0,y:0};});
  const up=e=>{if(e.pointerId===id){id=null;joyV={x:0,y:0};}};canvas.addEventListener('pointerup',up);canvas.addEventListener('pointercancel',up);}
 
 /* ================= game state ================= */
-let lang=(store.get('lang')||((navigator.language||'en').toLowerCase().startsWith('es')?'es':'en')),state='menu',caught=0,tStart=0,tEnd=0,T=0,nextSpawn=0,cheer=0,winT=-1,pickH=null,tipTimer=0;
+let lang=(store.get('lang')||((navigator.language||'en').toLowerCase().startsWith('es')?'es':'en')),state='menu',caught=0,tStart=0,tEnd=0,T=0,nextSpawn=0,cheer=0,winT=-1,gotT=false,againWarn=false,tipTimer=0;
 const tr=()=>L[lang];
 function applyLang(){const D=tr();document.documentElement.lang=lang;
  document.querySelectorAll('[data-t]').forEach(el=>{const k=el.dataset.t;if(typeof D[k]==='string')el.textContent=D[k];});
@@ -517,7 +528,7 @@ function startGame(){if(nameState()!=='ok'){$('#name').focus();updatePlay();retu
  $('#start').hidden=true;$('#win').hidden=true;$('#hud').hidden=false;$('#right').hidden=false;$('#joy').classList.add('show');
  applyLang();tip('',tr().go,2600);chime([72,76,79],.12);}
 $('#play').onclick=startGame;
-$('#again').onclick=startGame;
+$('#again').onclick=()=>{if(!gotT&&!againWarn){againWarn=true;toast(tr().waitT,3800);const b=$('#signup');b.scrollIntoView({block:'center',behavior:'smooth'});b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');return;}startGame();};
 
 // all 12 presents drop at once, spread around the plaza
 function dropAll(){const spots=[];let gap=5.2;
@@ -539,58 +550,21 @@ function win(){state='won';winT=T;tEnd=performance.now()/1000;const secs=Math.ro
  tip(tr().gift(GOAL),tr().teasers[GOAL-1],2800);pool.forEach(p=>{if(p.state==='fall'||p.state==='ground'){p.state='leave';p.t0=T;}});
  setTimeout(()=>chime([72,76,79,84,88,91,96],.2,.11),900);setTimeout(()=>{burst(V(0,8.8,0),160,9);whoosh();},1000);
  postScore();
- setTimeout(()=>{if(state!=='won')return;$('#joy').classList.remove('show');showScore();fillTicket();$('#win').hidden=false;},3600);}
+ setTimeout(()=>{if(state!=='won')return;$('#joy').classList.remove('show');gotT=false;againWarn=false;showScore();fillTicket();$('#win').hidden=false;$('#win').scrollTop=0;},3600);}
 function showScore(){$('#score').innerHTML=tr().score(fmtR(win.secs),fmtR(win.best),win.nb);}
 
 /* ================= ticket screen ================= */
 $('#name').value=store.get('name')||'';
-pickH=parseInt(store.get('time')||'')||null;
-function fillTicket(){const D=tr(),nm=$('#name').value.trim();$('#tName').hidden=!nm;$('#tName').textContent=nm;
- $('#tTime').textContent=pickH?D.at(pickH):D.both;document.querySelectorAll('#pick button').forEach(b=>b.classList.toggle('on',+b.dataset.time===pickH));}
+function fillTicket(){const D=tr(),nm=$('#name').value.trim();$('#winH').textContent=D.winHn(nm);$('#giftTag').textContent=D.tag(nm);
+ $('#claim').classList.toggle('done',gotT);$('#share').classList.toggle('glow',gotT);}
 $('#name').addEventListener('input',()=>{store.set('name',$('#name').value.trim());fillTicket();updatePlay();});
 $('#name').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'){e.preventDefault();startGame();}});
-document.querySelectorAll('#pick button').forEach(b=>b.onclick=()=>{pickH=+b.dataset.time;store.set('time',String(pickH));fillTicket();chime([84],.12);});
-function needTime(){if(pickH)return true;const p=$('#pick');p.classList.remove('nudge');void p.offsetWidth;p.classList.add('nudge');toast(tr().pickFirst);return false;}
-function details(){return (lang==='es'?'Seminario':'Seminar')+': '+tr().seminar+'\n'+EVENT.place+'\n'+EVENT.maps;}
-function gcalURL(){return 'https://calendar.google.com/calendar/render?action=TEMPLATE&text='+encodeURIComponent(tr().calTitle)+'&dates='+EVENT.startsUTC[pickH]+'/'+EVENT.endsUTC[pickH]+'&location='+encodeURIComponent(EVENT.place)+'&details='+encodeURIComponent(details());}
 function openURL(u){const w=window.open(u,'_blank','noopener');if(!w)location.href=u;}
-function saveBlob(blob,name){const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},4000);}
-$('#cal').onclick=()=>{if(!needTime())return;
- if(/android/i.test(navigator.userAgent)){openURL(gcalURL());return;}
- const esc=s=>s.replace(/\\/g,'\\\\').replace(/,/g,'\\,').replace(/;/g,'\\;').replace(/\n/g,'\\n');
- const stamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d+/,'');
- const ics=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Road to Dec 5//Catch the Gifts//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','BEGIN:VEVENT',
-  'UID:dec5-2026-'+pickH+'-'+Math.random().toString(36).slice(2)+'@roadtodec5','DTSTAMP:'+stamp,'DTSTART:'+EVENT.startsUTC[pickH],'DTEND:'+EVENT.endsUTC[pickH],
-  'SUMMARY:'+esc(tr().calTitle),'LOCATION:'+esc(EVENT.place),'DESCRIPTION:'+esc(details()),
-  'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+esc(tr().calTitle),'TRIGGER:-P1D','END:VALARM',
-  'BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+esc(tr().calTitle),'TRIGGER:-PT2H','END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n');
- saveBlob(new Blob([ics],{type:'text/calendar'}),'dec5-seminar.ics');};
-$('#gcal').onclick=()=>{if(needTime())openURL(gcalURL());};
 $('#dir').onclick=()=>openURL(EVENT.maps);
-$('#signup').onclick=()=>openURL(EVENT.signup[lang]||EVENT.signup.en);
+$('#signup').onclick=()=>{gotT=true;fillTicket();openURL(EVENT.signup[lang]||EVENT.signup.en);};
 $('#share').onclick=async()=>{const D=tr(),url=location.href.split('#')[0];
  if(navigator.share){try{await navigator.share({title:D.title,text:D.shareText,url});return;}catch(e){if(e&&e.name==='AbortError')return;}}
  try{await navigator.clipboard.writeText(D.shareText+' '+url);toast(D.copied);}catch(e){prompt('',D.shareText+' '+url);}};
-function ticketCanvas(){const D=tr(),W=1080,H=1350,c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');
- const bg=g.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#a61422');bg.addColorStop(1,'#5e0811');g.fillStyle=bg;g.fillRect(0,0,W,H);
- g.strokeStyle='#f0c860';g.lineWidth=10;rrect(g,30,30,W-60,H-60,40);g.stroke();
- // little tree
- const tx=W/2,ty=330;g.fillStyle='#2f9a55';for(let i=0;i<3;i++){g.beginPath();g.moveTo(tx,ty-200+i*70);g.lineTo(tx-120+i*-10,ty-40+i*70);g.lineTo(tx+120+i*10,ty-40+i*70);g.closePath();g.fill();}
- g.fillStyle='#8b5a33';g.fillRect(tx-18,ty+170,36,40);const LC=['#ffd45c','#ff5a5a','#fff6e2'];for(let i=0;i<26;i++){g.fillStyle=LC[i%3];g.beginPath();const yy=ty-140+i*12,ww=(yy-(ty-200))*.55;g.arc(tx+Math.sin(i*2.4)*ww*.5,yy,9,0,7);g.fill();}
- g.save();g.translate(tx,ty-215);g.fillStyle='#ffd45c';g.shadowColor='#ffd45c';g.shadowBlur=40;g.beginPath();for(let i=0;i<10;i++){const r=i%2?22:52,a=-Math.PI/2+i*Math.PI/5;i?g.lineTo(Math.cos(a)*r,Math.sin(a)*r):g.moveTo(Math.cos(a)*r,Math.sin(a)*r);}g.closePath();g.fill();g.restore();
- g.textAlign='center';g.textBaseline='alphabetic';g.fillStyle='#f6d67e';g.font=`700 34px ${BODY}`;g.letterSpacing='8px';g.fillText(D.kicker,W/2,610);g.letterSpacing='0px';
- // ticket card
- const cx=90,cy=650,cw=W-180,chh=600;g.fillStyle='#fff6e2';rrect(g,cx,cy,cw,chh,30);g.fill();g.fillStyle='#760b16';for(const sx of[cx,cx+cw]){g.beginPath();g.arc(sx,cy+chh/2,30,0,7);g.fill();}
- g.fillStyle='#a61422';g.font=`800 30px ${BODY}`;g.letterSpacing='7px';g.fillText(D.seeYou,W/2,cy+70);g.letterSpacing='0px';
- let y=cy+70;const nm=$('#name').value.trim();if(nm){g.fillStyle='#760b16';g.font=`400 64px ${DISPLAY}`;y+=80;g.fillText(nm,W/2,y);}
- g.fillStyle='#3d070d';let fs=54;g.font=`400 ${fs}px ${DISPLAY}`;while(g.measureText(D.seminar).width>cw-80&&fs>30){fs-=2;g.font=`400 ${fs}px ${DISPLAY}`;}y+=nm?80:100;g.fillText(D.seminar,W/2,y);
- g.strokeStyle='#e0b866';g.lineWidth=4;g.setLineDash([16,12]);g.beginPath();g.moveTo(cx+50,y+40);g.lineTo(cx+cw-50,y+40);g.stroke();g.setLineDash([]);
- g.fillStyle='#5a0a12';g.font=`800 44px ${BODY}`;g.fillText(D.date,W/2,y+110);g.fillText(pickH?D.at(pickH):D.both,W/2,y+165);
- g.font=`700 38px ${BODY}`;g.fillText('William A. Cook Auditorium',W/2,y+225);g.font=`500 32px ${BODY}`;g.globalAlpha=.8;g.fillText('811 W Lincoln Ave, Anaheim, CA 92805',W/2,y+272);g.globalAlpha=1;
- return c;}
-$('#pic').onclick=()=>{ticketCanvas().toBlob(async b=>{if(!b)return;const f=new File([b],'dec5-ticket.png',{type:'image/png'});
- if(PHONE&&navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f]});return;}catch(e){if(e&&e.name==='AbortError')return;}}
- saveBlob(b,'dec5-ticket.png');toast(tr().saved);},'image/png');};
 
 /* ================= Top 10 board ================= */
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
