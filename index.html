@@ -183,7 +183,7 @@ const L={
   days:n=>n>1?`Dec 5 is ${n} days away`:n===1?'Dec 5 is tomorrow!':n===0?'Dec 5 is today!':'',
   go:'Go! Catch all 12!',gift:n=>`GIFT ${n} OF ${GOAL}`,
   winHn:n=>n?`You lit the tree, ${n}!`:'You lit the tree!',oneLeft:'ONE GIFT LEFT TO OPEN',claimH:'Your ticket is still waiting!',tag:n=>'For: '+(n||'You'),step1:'Caught 12 gifts',step2:'Lit the tree',step3:'Get your ticket',
-  already:"Already signed up? You still need your ticket. Tap the button so you don't forget!",when:'Sat, Dec 5, 2026 · 10 AM & 2 PM · William A. Cook Auditorium, Anaheim',waitT:'Wait! Get your ticket first 👆 (tap again to play)',score:(t,b,nb)=>`You caught ${GOAL} gifts in <b>${t}</b>`+(nb?' · New best!':` · Best: ${b}`),
+  already:"Coming to the event? Don't forget your ticket. Tap the button so you don't forget!",when:'Sat, Dec 5, 2026 · 10 AM & 2 PM · William A. Cook Auditorium, Anaheim',waitT:'Wait! Get your ticket first 👆 (tap again to play)',score:(t,b,nb)=>`You caught ${GOAL} gifts in <b>${t}</b>`+(nb?' · New best!':` · Best: ${b}`),
   seeYou:'SEE YOU THERE',seminar:'How Can Jesus Feel Our Love?',date:'Saturday, Dec 5, 2026',both:'10 AM & 2 PM',at:h=>h===10?'10 AM':'2 PM',
   top10:'🏆 Top 10',post:'🏆 Post my time',retry:'🏆 Try posting again',posting:'Posting…',rankMsg:n=>`You're #${n}!`,needName:'Your name needs at least 2 letters',lettersOnly:'Letters only, please (no numbers or symbols)',
   boardEmpty:'No times yet. Be the first!',boardErr:"Couldn't load the scores. Try again.",boardLoading:'Loading…',badName:'Please use a different name.',badTime:"That time can't be posted.",
@@ -212,7 +212,7 @@ const L={
   days:n=>n>1?`Faltan ${n} días para el 5 de diciembre`:n===1?'¡El 5 de diciembre es mañana!':n===0?'¡El 5 de diciembre es hoy!':'',
   go:'¡Ya! ¡Atrapa los 12!',gift:n=>`REGALO ${n} DE ${GOAL}`,
   winHn:n=>n?`¡Encendiste el árbol, ${n}!`:'¡Encendiste el árbol!',oneLeft:'FALTA UN REGALO POR ABRIR',claimH:'¡Tu boleto te está esperando!',tag:n=>'Para: '+(n||'Ti'),step1:'Atrapaste 12 regalos',step2:'Encendiste el árbol',step3:'Obtén tu boleto',
-  already:'¿Ya te inscribiste? Todavía necesitas tu boleto. ¡Toca el botón para que no se te olvide!',when:'Sáb. 5 de dic. de 2026 · 10:00 a. m. y 2:00 p. m. · William A. Cook Auditorium, Anaheim',waitT:'¡Espera! Primero obtén tu boleto 👆 (toca otra vez para jugar)',score:(t,b,nb)=>`Atrapaste ${GOAL} regalos en <b>${t}</b>`+(nb?' · ¡Nuevo récord!':` · Récord: ${b}`),
+  already:'¿Vienes al evento? No olvides tu boleto. ¡Toca el botón para que no se te olvide!',when:'Sáb. 5 de dic. de 2026 · 10:00 a. m. y 2:00 p. m. · William A. Cook Auditorium, Anaheim',waitT:'¡Espera! Primero obtén tu boleto 👆 (toca otra vez para jugar)',score:(t,b,nb)=>`Atrapaste ${GOAL} regalos en <b>${t}</b>`+(nb?' · ¡Nuevo récord!':` · Récord: ${b}`),
   seeYou:'¡TE ESPERAMOS!',seminar:'¿Cómo puede Jesús sentir nuestro amor?',date:'Sábado 5 de diciembre de 2026',both:'10:00 a. m. y 2:00 p. m.',at:h=>h===10?'10:00 a. m.':'2:00 p. m.',
   top10:'🏆 Top 10',post:'🏆 Publicar mi tiempo',retry:'🏆 Intentar publicar otra vez',posting:'Publicando…',rankMsg:n=>`¡Quedaste #${n}!`,needName:'Tu nombre necesita al menos 2 letras',lettersOnly:'Solo letras, por favor (sin números ni símbolos)',
   boardEmpty:'Todavía no hay tiempos. ¡Sé el primero!',boardErr:'No se pudieron cargar los tiempos. Intenta otra vez.',boardLoading:'Cargando…',badName:'Por favor usa otro nombre.',badTime:'Ese tiempo no se puede publicar.',
@@ -236,6 +236,7 @@ const L={
 };
 const EVENT={startsUTC:{10:'20261205T180000Z',14:'20261205T220000Z'},endsUTC:{10:'20261205T200000Z',14:'20261206T000000Z'},
  signup:{en:'https://risen-ministries.com/events/how-can-jesus-feel-our-love',es:'https://risen-ministries.com/es/events/how-can-jesus-feel-our-love'},
+ game:'https://roadtodec5.github.io/',
  place:'William A. Cook Auditorium, 811 W Lincoln Ave, Anaheim, CA 92805',
  maps:'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent('William A. Cook Auditorium, 811 W Lincoln Ave, Anaheim, CA 92805')};
 
@@ -562,7 +563,7 @@ $('#name').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'
 function openURL(u){const w=window.open(u,'_blank','noopener');if(!w)location.href=u;}
 $('#dir').onclick=()=>openURL(EVENT.maps);
 $('#signup').onclick=()=>{gotT=true;fillTicket();openURL(EVENT.signup[lang]||EVENT.signup.en);};
-$('#share').onclick=async()=>{const D=tr(),url=location.href.split('#')[0];
+$('#share').onclick=async()=>{const D=tr(),url=EVENT.game;
  if(navigator.share){try{await navigator.share({title:D.title,text:D.shareText,url});return;}catch(e){if(e&&e.name==='AbortError')return;}}
  try{await navigator.clipboard.writeText(D.shareText+' '+url);toast(D.copied);}catch(e){prompt('',D.shareText+' '+url);}};
 
