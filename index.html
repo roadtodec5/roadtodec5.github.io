@@ -33,18 +33,16 @@ button{font-family:inherit}
 .btn{font:700 16px "Figtree",sans-serif;border-radius:12px;border:1px solid var(--gold);background:rgba(0,0,0,.2);color:var(--cream);padding:11px 14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px}
 .btn.primary{background:linear-gradient(#ffe08a,#e0a93c);color:var(--ink);border-color:#fff3c4}
 .btn:active{transform:translateY(1px)}
-#signup{font:800 clamp(17px,4.9vw,23px)/1.15 "Figtree",sans-serif;padding:17px 8px;text-wrap:balance;border-radius:16px;border:3px solid #fff;background:linear-gradient(#fff0a8,#ffc934 55%,#f0a41c);color:var(--ink);gap:6px;box-shadow:0 0 0 0 rgba(255,224,138,.85),0 6px 16px rgba(40,4,8,.5);animation:callout 1.3s ease-in-out infinite}
-#signup .hand{font-size:1.25em;animation:poke .65s ease-in-out infinite alternate}
-#signup .hand.r{animation-name:pokeR}
-@keyframes callout{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,224,138,.85),0 6px 16px rgba(40,4,8,.5)}50%{transform:scale(1.045)}100%{transform:scale(1);box-shadow:0 0 0 16px rgba(255,224,138,0),0 6px 16px rgba(40,4,8,.5)}}
-@keyframes poke{to{transform:translateX(5px)}}
-@keyframes pokeR{to{transform:translateX(-5px)}}
-@media (prefers-reduced-motion:reduce){#signup,#signup .hand{animation:none}}
+#signup{font:800 20px/1.15 "Figtree",sans-serif;padding:15px 12px;border-radius:14px;border:2px solid #fff3c4;background:linear-gradient(#ffe9a0,#f2c04a);color:var(--ink);animation:glow 2.6s ease-in-out infinite}
+@keyframes glow{50%{box-shadow:0 0 22px 2px rgba(255,224,138,.55)}}
+@keyframes callout{0%{box-shadow:0 0 0 0 rgba(255,224,138,.7)}100%{box-shadow:0 0 0 14px rgba(255,224,138,0)}}
+@media (prefers-reduced-motion:reduce){#signup{animation:none}}
 .btn:disabled{opacity:.45;cursor:default;transform:none}
 .link{background:none;border:0;color:var(--gold2);font:600 14px "Figtree",sans-serif;text-decoration:underline;cursor:pointer;padding:4px}
 /* HUD */
 #hud{position:fixed;left:max(12px,env(safe-area-inset-left,0px));top:calc(12px + env(safe-area-inset-top,0px));padding:8px 14px;display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px}
 #hud .k{font-size:11px;letter-spacing:.18em;font-weight:700;display:block;margin-bottom:1px}
+@media (max-width:560px){#hud .k{display:none}}
 #right{position:fixed;right:max(12px,env(safe-area-inset-right,0px));top:calc(12px + env(safe-area-inset-top,0px));display:flex;gap:8px;align-items:center}
 #clock{padding:8px 14px;font-weight:800;font-size:20px;font-variant-numeric:tabular-nums;min-width:7.2ch;text-align:center}
 #mute{width:44px;height:44px;border-radius:50%;padding:0;font-size:19px}
@@ -59,45 +57,44 @@ button{font-family:inherit}
 .ov>.card{width:min(460px,90vw);padding:20px 20px 18px;text-align:center;display:grid;gap:12px;box-sizing:border-box}
 .kick{letter-spacing:.2em;font-weight:700;font-size:12.5px;color:var(--gold2)}
 #start h1{margin:0;font-size:42px;line-height:1.02}
-#start p{margin:0;font-size:16px;line-height:1.45}
+#start p{margin:0;font-size:15.5px;line-height:1.4}
+#start>.card{gap:10px}
+.story{background:rgba(0,0,0,.2);border-radius:14px;padding:11px 14px 12px;display:grid;gap:5px}
+#start .story .st1{font-style:italic;font-size:15px;opacity:.95}
+#start .story .st2{font-size:22px;line-height:1.14}
+#start .about{font-weight:600}
+#start .lead{font-size:14.5px;opacity:.92}
+.evt{display:grid;gap:1px;font-weight:700;font-size:14.5px}
+.nameLbl{font-weight:800;font-size:15px;margin-bottom:-4px}
+#name.shake{animation:shake .45s 1}
 #langs{display:flex;justify-content:center;gap:6px}
 #langs button{font:700 13px "Figtree",sans-serif;border-radius:999px;border:1px solid rgba(255,255,255,.4);background:transparent;color:var(--cream);padding:5px 13px;cursor:pointer}
 #langs button.on{background:var(--gold2);color:var(--ink);border-color:#fff3c4}
 #more{text-align:left;display:grid;gap:6px;font-size:14.5px;line-height:1.4}
 #more div{background:rgba(0,0,0,.16);border-radius:10px;padding:8px 12px}
-#days{font-weight:800;font-size:15px}
+#days{font-weight:800;font-size:14.5px}
 /* ticket screen */
 #win>.card{gap:10px}
 #win h2{margin:0;font-size:34px;line-height:1.05}
 #score{font-size:15px;font-weight:600}
 #score b{color:var(--gold2)}
-#claim{background:rgba(0,0,0,.24);border:2px dashed var(--gold2);border-radius:16px;padding:14px 14px 12px;display:grid;gap:9px;justify-items:center}
-#claim .left{font-size:12.5px;letter-spacing:.18em;font-weight:800;color:#fff;background:#d81e2c;border-radius:999px;padding:4px 12px}
-#claim .gift{position:relative;line-height:1;margin:2px 0 0}
-#claim .gift .g{display:inline-block;font-size:64px;transform-origin:50% 90%;animation:wob 1.5s ease-in-out infinite;filter:drop-shadow(0 6px 8px rgba(0,0,0,.35))}
-#claim .gift .tag{position:absolute;left:68%;top:8%;white-space:nowrap;background:var(--cream);color:var(--ink);font:400 15px "Marcellus",Georgia,serif;padding:4px 10px;border-radius:8px 8px 8px 0;transform:rotate(-6deg);box-shadow:0 2px 6px rgba(0,0,0,.3);max-width:34vw;overflow:hidden;text-overflow:ellipsis}
-#claim .ch{font-size:23px;line-height:1.12;color:var(--gold2)}
-.steps{list-style:none;margin:0;padding:0;display:grid;gap:5px;text-align:left;font-weight:700;font-size:15.5px}
-.steps li{display:flex;align-items:center;gap:9px;opacity:.8}
-.steps i{flex:none;width:22px;height:22px;border-radius:6px;border:2px solid var(--gold2);display:grid;place-items:center;font-style:normal;font-weight:800;font-size:15px;color:var(--ink);box-sizing:border-box}
-.steps li.ok i{background:var(--gold2)}
-.steps li.ok span{text-decoration:line-through;text-decoration-color:rgba(255,246,226,.55)}
-#step3{opacity:1;font-size:17.5px;color:#fff}
-#step3 i{border-color:#fff;animation:box 1s ease-in-out infinite}
-#claim.done #step3 i{background:var(--gold2);border-color:var(--gold2);animation:none}
-#claim.done #step3 i:after{content:"✓"}
-#claim.done #signup,#claim.done #signup .hand,#claim.done .gift .g{animation:none}
-#claim .already{font-size:14px;font-weight:700;line-height:1.35;color:var(--cream)}
-#claim .when{font-size:12.5px;line-height:1.4;opacity:.8}
-#signup{width:100%}
-#claim #signup.shake{animation:shake .5s 2}
-.btn.love{font-size:17px;padding:13px 14px;border:2px solid var(--gold2);background:rgba(255,255,255,.1)}
-.btn.love.glow{animation:callout 1.3s ease-in-out infinite;background:linear-gradient(#ffe08a,#e0a93c);color:var(--ink);border-color:#fff3c4}
-@keyframes wob{0%,100%{transform:rotate(-7deg)}25%{transform:rotate(7deg) scale(1.06)}50%{transform:rotate(-5deg)}75%{transform:rotate(6deg) scale(1.06)}}
-@keyframes box{50%{box-shadow:0 0 0 6px rgba(255,255,255,.28);transform:scale(1.12)}}
-@keyframes shake{20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
-@media (prefers-reduced-motion:reduce){#claim .gift .g,#step3 i,.btn.love.glow{animation:none}}
-#name{font:600 16px "Figtree",sans-serif;padding:10px 12px;border-radius:10px;border:1px solid rgba(255,255,255,.45);background:rgba(255,255,255,.12);color:var(--cream);text-align:center;-webkit-user-select:text;user-select:text}
+#claim{background:rgba(0,0,0,.2);border-radius:16px;padding:14px 14px 13px;display:grid;gap:8px;justify-items:center}
+#claim .gift{position:relative;line-height:1}
+#claim .gift .g{display:inline-block;font-size:52px;transform-origin:50% 90%;animation:wob 3.2s ease-in-out infinite;filter:drop-shadow(0 5px 7px rgba(0,0,0,.3))}
+#claim .gift .tag{position:absolute;left:70%;top:6%;white-space:nowrap;background:var(--cream);color:var(--ink);font:400 14.5px "Marcellus",Georgia,serif;padding:3px 9px;border-radius:8px 8px 8px 0;transform:rotate(-6deg);box-shadow:0 2px 6px rgba(0,0,0,.3);max-width:34vw;overflow:hidden;text-overflow:ellipsis}
+#claim .ch{font-size:27px;line-height:1.1;color:var(--gold2)}
+#claim .inv{font-size:15px;line-height:1.35}
+#claim .sem{font-size:21px;line-height:1.15;color:var(--cream)}
+#claim .when{font-size:14px;font-weight:700;line-height:1.4;color:var(--gold2)}
+#claim .warm{font-size:14px;line-height:1.4;opacity:.95}
+#claim .already{font-size:13.5px;line-height:1.35;opacity:.9}
+#signup{width:100%;margin-top:3px}
+.btn.love{font-size:16.5px;padding:12px 14px;border:2px solid var(--gold2);background:rgba(255,255,255,.1)}
+.btn.love.glow{background:linear-gradient(#ffe9a0,#f2c04a);color:var(--ink);border-color:#fff3c4}
+@keyframes wob{0%,100%{transform:rotate(-4deg)}50%{transform:rotate(4deg)}}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+@media (prefers-reduced-motion:reduce){#claim .gift .g{animation:none}}
+#name{font:600 16px "Figtree",sans-serif;padding:10px 12px;border-radius:10px;border:2px solid var(--gold2);background:rgba(255,255,255,.16);color:var(--cream);text-align:center;-webkit-user-select:text;user-select:text}
 #name::placeholder{color:rgba(255,246,226,.65)}
 .grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .nameMsg{font-size:14px;font-weight:700;color:var(--gold2);min-height:1.2em;margin-top:-6px}
@@ -121,7 +118,7 @@ button{font-family:inherit}
 </head>
 <body>
 <canvas id="c"></canvas>
-<div id="hud" class="card" hidden><span><span class="k gold" data-t="kicker"></span><span id="count">🎁 0 / 12</span></span></div>
+<div id="hud" class="card" hidden><span><span class="k gold" data-t="kickS"></span><span id="count">🎁 0 / 12</span></span></div>
 <div id="right" hidden><div id="clock" class="card">0:00</div><button id="mute" class="btn card" type="button" aria-label="Sound">🔊</button></div>
 <div id="tip" class="card"><span class="n" id="tipN"></span><span id="tipT"></span></div>
 <div id="joy"><div id="knob"></div></div>
@@ -131,14 +128,20 @@ button{font-family:inherit}
   <div id="langs"><button type="button" data-l="en">English</button><button type="button" data-l="es">Español</button></div>
   <div class="kick" data-t="kicker"></div>
   <h1 class="display gold" data-t="title"></h1>
-  <p data-t="lead"></p>
-  <div id="days" class="gold"></div>
+  <div class="story">
+    <p class="st1" data-t="story1"></p>
+    <p class="st2 display gold" data-t="story2"></p>
+  </div>
+  <p class="about" data-t="about"></p>
+  <p class="lead" data-t="lead"></p>
+  <div class="evt"><span data-t="evt"></span><span id="days" class="gold"></span></div>
+  <label class="nameLbl" for="name" data-t="nameLbl"></label>
   <input id="name" type="text" maxlength="16" autocomplete="given-name" enterkeyhint="go" data-ph="namePh">
   <div id="nameMsg" class="nameMsg"></div>
   <button id="play" class="btn primary" type="button" style="font-size:19px;padding:13px" disabled data-t="loading"></button>
   <button id="topBtn" class="btn" type="button" data-t="top10"></button>
   <div id="boardStart" class="board" hidden></div>
-  <button id="moreBtn" class="link" type="button" data-t="more"></button>
+  <button id="moreBtn" class="link" type="button"></button>
   <div id="more" hidden><div data-t="how1"></div><div data-t="how2"></div><div data-t="how3"></div></div>
 </div></div>
 
@@ -147,17 +150,14 @@ button{font-family:inherit}
   <h2 class="display gold" id="winH"></h2>
   <div id="score"></div>
   <div id="claim">
-    <div class="left" data-t="oneLeft"></div>
     <div class="gift"><span class="g">🎁</span><span class="tag" id="giftTag"></span></div>
     <div class="ch display" data-t="claimH"></div>
-    <ul class="steps">
-      <li class="ok"><i>✓</i><span data-t="step1"></span></li>
-      <li class="ok"><i>✓</i><span data-t="step2"></span></li>
-      <li id="step3"><i></i><span data-t="step3"></span></li>
-    </ul>
-    <button id="signup" class="btn primary" type="button"><span class="hand">👉</span><span data-t="signup"></span><span class="hand r">👈</span></button>
-    <div class="already" data-t="already"></div>
+    <div class="inv" data-t="invite"></div>
+    <div class="sem display" data-t="seminarQ"></div>
     <div class="when" data-t="when"></div>
+    <div class="warm" data-t="warm"></div>
+    <button id="signup" class="btn primary" type="button" data-t="signup"></button>
+    <div class="already" data-t="already"></div>
   </div>
   <button id="share" class="btn love" type="button" data-t="share"></button>
   <button id="post" class="btn primary" type="button" data-t="retry" hidden></button>
@@ -180,19 +180,24 @@ import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 /* ================= words (edit here) ================= */
 const GOAL=12;
 const L={
- en:{kicker:'ROAD TO DEC 5',title:'Catch the Gifts',lead:'12 presents fall all at once. How fast can you catch them all?',
-  loading:'Loading…',play:'Play',more:'More',less:'Less',
+ en:{kicker:'ROAD TO THE BRIGHTEST CHRISTMAS',kickS:'THE BRIGHTEST CHRISTMAS',title:'Catch the Gifts',
+  story1:'Long ago, wise men followed a star to bring their best gifts to Jesus.',story2:'This Christmas, how can Jesus feel our love?',
+  about:'The best Christmas gift is a warm, fun-filled, family-friendly event that ignites the fire of your faith 🔥 and moves you to live it.',
+  lead:'Catch 12 falling gifts and light the tree. How fast can you do it?',evt:'Sat, Dec 5 · 10 AM & 2 PM · Anaheim',
+  nameLbl:'Type your first name to play',typeName:'Type your first name in the box first 👆',
+  loading:'Loading…',play:'Play',more:'Click More for instructions',less:'Hide instructions',
   how1:'🎁 All 12 presents drop by parachute at the same time. Walk over one to catch it.',
   how2:'⏱️ The clock starts when you tap Play and stops on the last present. Beat your best time!',
   how3:'🕹️ Walk with the joystick, or W A S D / the arrow keys.',
   days:n=>n>1?`Dec 5 is ${n} days away`:n===1?'Dec 5 is tomorrow!':n===0?'Dec 5 is today!':'',
   go:'Go! Catch all 12!',gift:n=>`GIFT ${n} OF ${GOAL}`,
-  winHn:n=>n?`You lit the tree, ${n}!`:'You lit the tree!',oneLeft:'ONE GIFT LEFT TO OPEN',claimH:'Your ticket is still waiting!',tag:n=>'For: '+(n||'You'),step1:'Caught 12 gifts',step2:'Lit the tree',step3:'Get your ticket',
-  already:"Coming to the event? Don't forget your ticket. Tap the button so you don't forget!",when:'Sat, Dec 5, 2026 · 10 AM & 2 PM · William A. Cook Auditorium, Anaheim',waitT:'Wait! Get your ticket first 👆 (tap again to play)',score:(t,b,nb)=>`You caught ${GOAL} gifts in <b>${t}</b>`+(nb?' · New best!':` · Best: ${b}`),
+  winHn:n=>n?`You lit the tree, ${n}!`:'You lit the tree!',claimH:'You are invited!',tag:n=>'For: '+(n||'You'),invite:'The wise men brought their gifts to Jesus. Come find out what gift we can bring Him:',seminarQ:'“How Can Jesus Feel Our Love?”',
+  warm:'A warm, fun-filled Christmas event for the whole family. Everyone is welcome.',
+  already:"Coming to the event? Don't forget your ticket. Tap the button so you don't forget!",when:'Sat, Dec 5, 2026 · 10 AM & 2 PM · William A. Cook Auditorium, Anaheim',score:(t,b,nb)=>`You caught ${GOAL} gifts in <b>${t}</b>`+(nb?' · New best!':` · Best: ${b}`),
   seeYou:'SEE YOU THERE',seminar:'How Can Jesus Feel Our Love?',date:'Saturday, Dec 5, 2026',both:'10 AM & 2 PM',at:h=>h===10?'10 AM':'2 PM',
   top10:'🏆 Top 10',post:'🏆 Post my time',retry:'🏆 Try posting again',posting:'Posting…',rankMsg:n=>`You're #${n}!`,needName:'Your name needs at least 2 letters',lettersOnly:'Letters only, please (no numbers or symbols)',
   boardEmpty:'No times yet. Be the first!',boardErr:"Couldn't load the scores. Try again.",boardLoading:'Loading…',badName:'Please use a different name.',badTime:"That time can't be posted.",
-  namePh:'Your first name',signup:'CLICK HERE to get your Ticket!',dir:'📍 Directions',share:'💌 Share the Love: invite a friend',again:'↻ Play again',
+  namePh:'Your first name',signup:'🎟️ Get my ticket',dir:'📍 Directions',share:'💌 Share the Love: invite a friend',again:'↻ Play again',
   copied:'Link copied! Paste it to a friend.',
   shareText:t=>`🎁 I caught all the gifts in ${t}. How fast can you catch all the gifts? Play, then come with me to "How Can Jesus Feel Our Love?" on Sat, Dec 5 in Anaheim!`,
   calTitle:'How Can Jesus Feel Our Love? (Dec 5 Seminar)',
@@ -209,19 +214,24 @@ const L={
    'Bring a friend. There is room for everyone.',
    'Two times to pick from: 10 AM or 2 PM.',
    'See you at the William A. Cook Auditorium in Anaheim!']},
- es:{kicker:'RUMBO AL 5 DE DIC',title:'Atrapa los Regalos',lead:'12 regalos caen al mismo tiempo. ¿Qué tan rápido puedes atraparlos todos?',
-  loading:'Cargando…',play:'Jugar',more:'Más',less:'Menos',
+ es:{kicker:'RUMBO A LA NAVIDAD MÁS BRILLANTE',kickS:'LA NAVIDAD MÁS BRILLANTE',title:'Atrapa los Regalos',
+  story1:'Hace mucho tiempo, unos sabios siguieron una estrella para llevarle sus mejores regalos a Jesús.',story2:'Esta Navidad, ¿cómo puede Jesús sentir nuestro amor?',
+  about:'El mejor regalo de Navidad es un evento cálido, divertido y para toda la familia que enciende el fuego de tu fe 🔥 y te mueve a vivirla.',
+  lead:'Atrapa 12 regalos que caen y enciende el árbol. ¿Qué tan rápido puedes hacerlo?',evt:'Sáb. 5 de dic. · 10:00 a. m. y 2:00 p. m. · Anaheim',
+  nameLbl:'Escribe tu nombre para jugar',typeName:'Primero escribe tu nombre en el cuadro 👆',
+  loading:'Cargando…',play:'Jugar',more:'Toca Más para ver las instrucciones',less:'Ocultar instrucciones',
   how1:'🎁 Los 12 regalos bajan en paracaídas al mismo tiempo. Camina hasta uno para atraparlo.',
   how2:'⏱️ El reloj empieza cuando tocas Jugar y para con el último regalo. ¡Supera tu mejor tiempo!',
   how3:'🕹️ Camina con el joystick, o con W A S D / las flechas.',
   days:n=>n>1?`Faltan ${n} días para el 5 de diciembre`:n===1?'¡El 5 de diciembre es mañana!':n===0?'¡El 5 de diciembre es hoy!':'',
   go:'¡Ya! ¡Atrapa los 12!',gift:n=>`REGALO ${n} DE ${GOAL}`,
-  winHn:n=>n?`¡Encendiste el árbol, ${n}!`:'¡Encendiste el árbol!',oneLeft:'FALTA UN REGALO POR ABRIR',claimH:'¡Tu boleto te está esperando!',tag:n=>'Para: '+(n||'Ti'),step1:'Atrapaste 12 regalos',step2:'Encendiste el árbol',step3:'Obtén tu boleto',
-  already:'¿Vienes al evento? No olvides tu boleto. ¡Toca el botón para que no se te olvide!',when:'Sáb. 5 de dic. de 2026 · 10:00 a. m. y 2:00 p. m. · William A. Cook Auditorium, Anaheim',waitT:'¡Espera! Primero obtén tu boleto 👆 (toca otra vez para jugar)',score:(t,b,nb)=>`Atrapaste ${GOAL} regalos en <b>${t}</b>`+(nb?' · ¡Nuevo récord!':` · Récord: ${b}`),
+  winHn:n=>n?`¡Encendiste el árbol, ${n}!`:'¡Encendiste el árbol!',claimH:'¡Estás invitado!',tag:n=>'Para: '+(n||'Ti'),invite:'Los sabios le llevaron sus regalos a Jesús. Ven a descubrir qué regalo podemos llevarle nosotros:',seminarQ:'“¿Cómo puede Jesús sentir nuestro amor?”',
+  warm:'Un evento navideño cálido y divertido para toda la familia. Todos son bienvenidos.',
+  already:'¿Vienes al evento? No olvides tu boleto. ¡Toca el botón para que no se te olvide!',when:'Sáb. 5 de dic. de 2026 · 10:00 a. m. y 2:00 p. m. · William A. Cook Auditorium, Anaheim',score:(t,b,nb)=>`Atrapaste ${GOAL} regalos en <b>${t}</b>`+(nb?' · ¡Nuevo récord!':` · Récord: ${b}`),
   seeYou:'¡TE ESPERAMOS!',seminar:'¿Cómo puede Jesús sentir nuestro amor?',date:'Sábado 5 de diciembre de 2026',both:'10:00 a. m. y 2:00 p. m.',at:h=>h===10?'10:00 a. m.':'2:00 p. m.',
   top10:'🏆 Top 10',post:'🏆 Publicar mi tiempo',retry:'🏆 Intentar publicar otra vez',posting:'Publicando…',rankMsg:n=>`¡Quedaste #${n}!`,needName:'Tu nombre necesita al menos 2 letras',lettersOnly:'Solo letras, por favor (sin números ni símbolos)',
   boardEmpty:'Todavía no hay tiempos. ¡Sé el primero!',boardErr:'No se pudieron cargar los tiempos. Intenta otra vez.',boardLoading:'Cargando…',badName:'Por favor usa otro nombre.',badTime:'Ese tiempo no se puede publicar.',
-  namePh:'Tu nombre',signup:'¡HAZ CLIC AQUÍ para obtener tu boleto!',dir:'📍 Cómo llegar',share:'💌 Comparte el amor: invita a un amigo',again:'↻ Jugar otra vez',
+  namePh:'Tu nombre',signup:'🎟️ Obtener mi boleto',dir:'📍 Cómo llegar',share:'💌 Comparte el amor: invita a un amigo',again:'↻ Jugar otra vez',
   copied:'¡Enlace copiado! Pégalo para un amigo.',
   shareText:t=>`🎁 Atrapé todos los regalos en ${t}. ¿Qué tan rápido puedes atraparlos tú? Juega y ven conmigo a "¿Cómo puede Jesús sentir nuestro amor?" el sábado 5 de diciembre en Anaheim.`,
   calTitle:'¿Cómo puede Jesús sentir nuestro amor? (Seminario 5 de dic)',
@@ -426,7 +436,7 @@ function buildTown(){
  // Christmas arch at the plaza's north edge
  {const ax=0,az=-R_PLAY-2.4;for(const sx of[-1,1]){const p=addMesh(new THREE.CylinderGeometry(.22,.26,5.2,10).translate(0,2.6,0),std('#f6e2b3'),scene);p.position.set(ax+sx*3.2,0,az);}
   const top=addMesh(new THREE.BoxGeometry(7,.5,.5),std('#f6e2b3'),scene);top.position.set(ax,5.2,az);
-  const st=canvasTex(1024,180,(c,w,h)=>{rrect(c,6,6,w-12,h-12,40);const gr=c.createLinearGradient(0,0,0,h);gr.addColorStop(0,'#a61422');gr.addColorStop(1,'#760b16');c.fillStyle=gr;c.fill();c.lineWidth=9;c.strokeStyle='#f0c860';c.stroke();c.font=`700 92px ${DISPLAY}`;c.fillStyle='#f6d67e';c.textAlign='center';c.textBaseline='middle';c.fillText('ROAD TO DEC 5',w/2,h/2+6);});
+  const st=canvasTex(1024,180,(c,w,h)=>{rrect(c,6,6,w-12,h-12,40);const gr=c.createLinearGradient(0,0,0,h);gr.addColorStop(0,'#a61422');gr.addColorStop(1,'#760b16');c.fillStyle=gr;c.fill();c.lineWidth=9;c.strokeStyle='#f0c860';c.stroke();c.font=`700 92px ${DISPLAY}`;c.fillStyle='#f6d67e';c.textAlign='center';c.textBaseline='middle';{const tx='ROAD TO THE BRIGHTEST CHRISTMAS';let f=92;while(c.measureText(tx).width>w-70&&f>30){f-=2;c.font=c.font.replace(/\d+px/,f+'px');}c.fillText(tx,w/2,h/2+6);};});
   const s=new THREE.Mesh(new THREE.PlaneGeometry(5.6,1),new THREE.MeshBasicMaterial({map:st,side:THREE.DoubleSide}));s.position.set(ax,6.05,az);scene.add(s);
   for(let i=0;i<11;i++){const b=addMesh(new THREE.IcosahedronGeometry(.22,0),std(i%2?'#d8232f':'#f2c14a'),scene);b.position.set(ax-3+i*.6,4.85,az+.3);}}
  // palms around the plaza edge, gap at north + south
@@ -527,14 +537,14 @@ $('#mute').onclick=()=>{audio();setMute(!muted);};setMute(muted);
 function toast(msg,ms=2600){const t=$('#toast');t.textContent=msg;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',ms);}
 function tip(n,text,ms=3400){$('#tipN').textContent=n||'';$('#tipN').hidden=!n;$('#tipT').textContent=text;$('#tip').classList.add('on');tipTimer=ms/1000;}
 
-function startGame(){if(nameState()!=='ok'){$('#name').focus();updatePlay();return;}audio();state='play';caught=0;tStart=performance.now()/1000;tEnd=0;winT=-1;cheer=0;
+function startGame(){if(nameState()!=='ok'){const n=$('#name');n.focus();updatePlay();if(!$('#nameMsg').textContent)$('#nameMsg').textContent=tr().typeName;n.classList.remove('shake');void n.offsetWidth;n.classList.add('shake');return;}audio();state='play';caught=0;tStart=performance.now()/1000;tEnd=0;winT=-1;cheer=0;
  pool.forEach(p=>{p.state='off';p.g.visible=p.ring.visible=p.dot.visible=false;});placed.forEach(p=>{p.g.visible=false;p.t0=-1;});
  posted=false;myRank=0;$('#post').hidden=true;$('#boardWin').hidden=true;$('#boardStart').hidden=true;$('#name').blur();
  player.pos.set(0,0,10);player.vel.set(0,0,0);player.yaw=Math.PI;venueDoors.forEach(m=>m.emissiveIntensity=0);dropAll();whoosh();
  $('#start').hidden=true;$('#win').hidden=true;$('#hud').hidden=false;$('#right').hidden=false;$('#joy').classList.add('show');
  applyLang();tip('',tr().go,2600);chime([72,76,79],.12);}
 $('#play').onclick=startGame;
-$('#again').onclick=()=>{if(!gotT&&!againWarn){againWarn=true;toast(tr().waitT,3800);const b=$('#signup');b.scrollIntoView({block:'center',behavior:'smooth'});b.classList.remove('shake');void b.offsetWidth;b.classList.add('shake');return;}startGame();};
+$('#again').onclick=startGame;
 
 // all 12 presents drop at once, spread around the plaza
 function dropAll(){const spots=[];let gap=5.2;
@@ -585,7 +595,7 @@ const squashN=s=>s.replace(/[^a-z]/g,'').replace(/(.)\1+/g,'$1'),trim3N=s=>s.rep
 function isBadName(raw){const n=normN(raw),all=squashN(n);if(BAD_PART.some(w=>all.includes(squashN(w))))return true;
  const words=n.split(/[^a-z]+/).filter(Boolean).map(trim3N);words.push(trim3N(n.replace(/[^a-z]/g,'')));return BAD_WORD.some(w=>words.includes(trim3N(w)));}
 function nameState(){const v=$('#name').value.trim(),letters=v.replace(/[^\p{L}]/gu,'').length;if(isBadName(v))return'bad';if(/[^\p{L}\p{M} .'\-]/u.test(v))return'chars';if(letters<2)return'short';return'ok';}
-function updatePlay(){const s=nameState(),D=tr();$('#play').disabled=!(ready&&s==='ok');$('#nameMsg').textContent=s==='bad'?D.badName:s==='chars'?D.lettersOnly:(s==='short'&&$('#name').value.trim()?D.needName:'');}
+function updatePlay(){const s=nameState(),D=tr();$('#play').disabled=!ready;$('#nameMsg').textContent=s==='bad'?D.badName:s==='chars'?D.lettersOnly:(s==='short'&&$('#name').value.trim()?D.needName:'');}
 function drawBoard(el,data){const D=tr();el.hidden=false;
  if(data==='loading'){el.innerHTML=`<div class="msg">${el.id==='boardWin'?D.posting:D.boardLoading}</div>`;return;}
  if(!data){el.innerHTML=`<div class="msg">${D.boardErr}</div>`;return;}
