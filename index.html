@@ -28,6 +28,13 @@ button{font-family:inherit}
 .btn{font:700 16px "Figtree",sans-serif;border-radius:12px;border:1px solid var(--gold);background:rgba(0,0,0,.2);color:var(--cream);padding:11px 14px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px}
 .btn.primary{background:linear-gradient(#ffe08a,#e0a93c);color:var(--ink);border-color:#fff3c4}
 .btn:active{transform:translateY(1px)}
+#signup{font:800 clamp(18px,5.4vw,23px)/1.15 "Figtree",sans-serif;padding:17px 12px;border-radius:16px;border:3px solid #fff;background:linear-gradient(#fff0a8,#ffc934 55%,#f0a41c);color:var(--ink);gap:10px;box-shadow:0 0 0 0 rgba(255,224,138,.85),0 6px 16px rgba(40,4,8,.5);animation:callout 1.3s ease-in-out infinite}
+#signup .hand{font-size:1.25em;animation:poke .65s ease-in-out infinite alternate}
+#signup .hand.r{animation-name:pokeR}
+@keyframes callout{0%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,224,138,.85),0 6px 16px rgba(40,4,8,.5)}50%{transform:scale(1.045)}100%{transform:scale(1);box-shadow:0 0 0 16px rgba(255,224,138,0),0 6px 16px rgba(40,4,8,.5)}}
+@keyframes poke{to{transform:translateX(5px)}}
+@keyframes pokeR{to{transform:translateX(-5px)}}
+@media (prefers-reduced-motion:reduce){#signup,#signup .hand{animation:none}}
 .btn:disabled{opacity:.45;cursor:default;transform:none}
 .link{background:none;border:0;color:var(--gold2);font:600 14px "Figtree",sans-serif;text-decoration:underline;cursor:pointer;padding:4px}
 /* HUD */
@@ -133,10 +140,10 @@ button{font-family:inherit}
     <div class="tv">William A. Cook Auditorium</div>
     <div class="ta">811 W Lincoln Ave, Anaheim, CA 92805</div>
   </div>
+  <button id="signup" class="btn primary" type="button"><span class="hand">👉</span><span data-t="signup"></span><span class="hand r">👈</span></button>
   <div id="pick"><span data-t="pick"></span><button type="button" data-time="10">10 AM</button><button type="button" data-time="14">2 PM</button></div>
   <button id="post" class="btn primary" type="button" data-t="retry" hidden></button>
   <div id="boardWin" class="board" hidden></div>
-  <button id="signup" class="btn primary" type="button" data-t="signup"></button>
   <button id="cal" class="btn" type="button" data-t="cal"></button>
   <div class="grid2">
     <button id="dir" class="btn" type="button" data-t="dir"></button>
@@ -170,7 +177,7 @@ const L={
   seeYou:'SEE YOU THERE',seminar:'How Can Jesus Feel Our Love?',date:'Saturday, Dec 5, 2026',both:'10 AM & 2 PM',at:h=>h===10?'10 AM':'2 PM',
   top10:'🏆 Top 10',post:'🏆 Post my time',retry:'🏆 Try posting again',posting:'Posting…',rankMsg:n=>`You're #${n}!`,needName:'Your name needs at least 2 letters',lettersOnly:'Letters only, please (no numbers or symbols)',
   boardEmpty:'No times yet. Be the first!',boardErr:"Couldn't load the scores. Try again.",boardLoading:'Loading…',badName:'Please use a different name.',badTime:"That time can't be posted.",
-  pick:'My time:',namePh:'Your first name',signup:'✍️ Sign up for the seminar',cal:'📅 Add to my calendar',dir:'📍 Directions',pic:'📸 Save picture',share:'💌 Invite a friend',again:'↻ Play again',gcal:'Use Google Calendar instead',
+  pick:'My time:',namePh:'Your first name',signup:'Click Here to get your Ticket!',cal:'📅 Add to my calendar',dir:'📍 Directions',pic:'📸 Save picture',share:'💌 Invite a friend',again:'↻ Play again',gcal:'Use Google Calendar instead',
   pickFirst:'Pick your time first: 10 AM or 2 PM',copied:'Link copied! Paste it to a friend.',saved:'Picture saved',
   shareText:'I\'m going to "How Can Jesus Feel Our Love?" on Sat, Dec 5 in Anaheim. Play this and come with me!',
   calTitle:'How Can Jesus Feel Our Love? (Dec 5 Seminar)',
@@ -198,7 +205,7 @@ const L={
   seeYou:'¡TE ESPERAMOS!',seminar:'¿Cómo puede Jesús sentir nuestro amor?',date:'Sábado 5 de diciembre de 2026',both:'10:00 a. m. y 2:00 p. m.',at:h=>h===10?'10:00 a. m.':'2:00 p. m.',
   top10:'🏆 Top 10',post:'🏆 Publicar mi tiempo',retry:'🏆 Intentar publicar otra vez',posting:'Publicando…',rankMsg:n=>`¡Quedaste #${n}!`,needName:'Tu nombre necesita al menos 2 letras',lettersOnly:'Solo letras, por favor (sin números ni símbolos)',
   boardEmpty:'Todavía no hay tiempos. ¡Sé el primero!',boardErr:'No se pudieron cargar los tiempos. Intenta otra vez.',boardLoading:'Cargando…',badName:'Por favor usa otro nombre.',badTime:'Ese tiempo no se puede publicar.',
-  pick:'Mi hora:',namePh:'Tu nombre',signup:'✍️ Inscribirme al seminario',cal:'📅 Agregar a mi calendario',dir:'📍 Cómo llegar',pic:'📸 Guardar imagen',share:'💌 Invitar a alguien',again:'↻ Jugar otra vez',gcal:'Usar Google Calendar',
+  pick:'Mi hora:',namePh:'Tu nombre',signup:'¡Haz clic aquí para obtener tu boleto!',cal:'📅 Agregar a mi calendario',dir:'📍 Cómo llegar',pic:'📸 Guardar imagen',share:'💌 Invitar a alguien',again:'↻ Jugar otra vez',gcal:'Usar Google Calendar',
   pickFirst:'Primero elige tu hora: 10 a. m. o 2 p. m.',copied:'¡Enlace copiado! Pégalo para un amigo.',saved:'Imagen guardada',
   shareText:'Voy a "¿Cómo puede Jesús sentir nuestro amor?" el sábado 5 de diciembre en Anaheim. ¡Juega esto y ven conmigo!',
   calTitle:'¿Cómo puede Jesús sentir nuestro amor? (Seminario 5 de dic)',
