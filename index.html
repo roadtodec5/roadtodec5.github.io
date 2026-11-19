@@ -177,7 +177,7 @@ const L={
   seeYou:'SEE YOU THERE',seminar:'How Can Jesus Feel Our Love?',date:'Saturday, Dec 5, 2026',both:'10 AM & 2 PM',at:h=>h===10?'10 AM':'2 PM',
   top10:'🏆 Top 10',post:'🏆 Post my time',retry:'🏆 Try posting again',posting:'Posting…',rankMsg:n=>`You're #${n}!`,needName:'Your name needs at least 2 letters',lettersOnly:'Letters only, please (no numbers or symbols)',
   boardEmpty:'No times yet. Be the first!',boardErr:"Couldn't load the scores. Try again.",boardLoading:'Loading…',badName:'Please use a different name.',badTime:"That time can't be posted.",
-  pick:'My time:',namePh:'Your first name',signup:'Click Here to get your Ticket!',cal:'📅 Add to my calendar',dir:'📍 Directions',pic:'📸 Save picture',share:'💌 Invite a friend',again:'↻ Play again',gcal:'Use Google Calendar instead',
+  pick:'My time:',namePh:'Your first name',signup:'CLICK HERE to get your Ticket!',cal:'📅 Add to my calendar',dir:'📍 Directions',pic:'📸 Save picture',share:'💌 Invite a friend',again:'↻ Play again',gcal:'Use Google Calendar instead',
   pickFirst:'Pick your time first: 10 AM or 2 PM',copied:'Link copied! Paste it to a friend.',saved:'Picture saved',
   shareText:'I\'m going to "How Can Jesus Feel Our Love?" on Sat, Dec 5 in Anaheim. Play this and come with me!',
   calTitle:'How Can Jesus Feel Our Love? (Dec 5 Seminar)',
@@ -205,7 +205,7 @@ const L={
   seeYou:'¡TE ESPERAMOS!',seminar:'¿Cómo puede Jesús sentir nuestro amor?',date:'Sábado 5 de diciembre de 2026',both:'10:00 a. m. y 2:00 p. m.',at:h=>h===10?'10:00 a. m.':'2:00 p. m.',
   top10:'🏆 Top 10',post:'🏆 Publicar mi tiempo',retry:'🏆 Intentar publicar otra vez',posting:'Publicando…',rankMsg:n=>`¡Quedaste #${n}!`,needName:'Tu nombre necesita al menos 2 letras',lettersOnly:'Solo letras, por favor (sin números ni símbolos)',
   boardEmpty:'Todavía no hay tiempos. ¡Sé el primero!',boardErr:'No se pudieron cargar los tiempos. Intenta otra vez.',boardLoading:'Cargando…',badName:'Por favor usa otro nombre.',badTime:'Ese tiempo no se puede publicar.',
-  pick:'Mi hora:',namePh:'Tu nombre',signup:'¡Haz clic aquí para obtener tu boleto!',cal:'📅 Agregar a mi calendario',dir:'📍 Cómo llegar',pic:'📸 Guardar imagen',share:'💌 Invitar a alguien',again:'↻ Jugar otra vez',gcal:'Usar Google Calendar',
+  pick:'Mi hora:',namePh:'Tu nombre',signup:'¡HAZ CLIC AQUÍ para obtener tu boleto!',cal:'📅 Agregar a mi calendario',dir:'📍 Cómo llegar',pic:'📸 Guardar imagen',share:'💌 Invitar a alguien',again:'↻ Jugar otra vez',gcal:'Usar Google Calendar',
   pickFirst:'Primero elige tu hora: 10 a. m. o 2 p. m.',copied:'¡Enlace copiado! Pégalo para un amigo.',saved:'Imagen guardada',
   shareText:'Voy a "¿Cómo puede Jesús sentir nuestro amor?" el sábado 5 de diciembre en Anaheim. ¡Juega esto y ven conmigo!',
   calTitle:'¿Cómo puede Jesús sentir nuestro amor? (Seminario 5 de dic)',
@@ -660,7 +660,7 @@ function step(dt){
   q.g.position.set(mix(q.from.x,to.x,sm(k)),mix(q.from.y,.45,k)+Math.sin(Math.PI*k)*3,mix(q.from.z,to.z,sm(k)));q.g.scale.setScalar(k<1?.8+.2*k:1+.12*Math.exp(-(T-q.t0-.8)*7)*Math.sin((T-q.t0-.8)*30));
   if(k>=1&&!q.chimed){q.chimed=true;}if(k<1)q.chimed=false;}
  // arrow to nearest present (only when it is a few steps away)
- if(nearest&&nd>3){arrow.visible=true;const a=Math.atan2(nearest.x-player.pos.x,nearest.z-player.pos.z);arrow.position.set(player.pos.x+Math.sin(a)*1.25,.07,player.pos.z+Math.cos(a)*1.25);arrow.rotation.y=a+Math.PI;arrow.material.opacity=.7+.3*Math.sin(T*8);}else arrow.visible=false;
+ if(false){arrow.visible=true;const a=Math.atan2(nearest.x-player.pos.x,nearest.z-player.pos.z);arrow.position.set(player.pos.x+Math.sin(a)*1.25,.07,player.pos.z+Math.cos(a)*1.25);arrow.rotation.y=a+Math.PI;arrow.material.opacity=.7+.3*Math.sin(T*8);}else arrow.visible=false;
  // tree + star
  const lit=state==='menu'?.35:caught/GOAL;setLights(tree,lit,T);setStar(tree,state==='won'?clamp((T-winT-.9)/1.2):0,T);
  if(state==='won'){const k=clamp((T-winT-1.4)/1.5);venueDoors.forEach(m=>m.emissiveIntensity=1.6*k);}
