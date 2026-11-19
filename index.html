@@ -59,20 +59,15 @@ button{font-family:inherit}
 #start h1{margin:0;font-size:42px;line-height:1.02}
 #start p{margin:0;font-size:15.5px;line-height:1.4}
 #start>.card{gap:10px}
-.story{background:rgba(0,0,0,.2);border-radius:14px;padding:11px 14px 12px;display:grid;gap:5px}
-#start .story .st1{font-style:italic;font-size:15px;opacity:.95}
-#start .story .st2{font-size:22px;line-height:1.14}
-#start .about{font-weight:600}
-#start .lead{font-size:14.5px;opacity:.92}
-.evt{display:grid;gap:1px;font-weight:700;font-size:14.5px}
-.nameLbl{font-weight:800;font-size:15px;margin-bottom:-4px}
+#start .about{font-size:15.5px;line-height:1.45}
+.evt{display:grid;gap:1px;font-size:13.5px;line-height:1.4;opacity:.8}
 #name.shake{animation:shake .45s 1}
 #langs{display:flex;justify-content:center;gap:6px}
 #langs button{font:700 13px "Figtree",sans-serif;border-radius:999px;border:1px solid rgba(255,255,255,.4);background:transparent;color:var(--cream);padding:5px 13px;cursor:pointer}
 #langs button.on{background:var(--gold2);color:var(--ink);border-color:#fff3c4}
 #more{text-align:left;display:grid;gap:6px;font-size:14.5px;line-height:1.4}
 #more div{background:rgba(0,0,0,.16);border-radius:10px;padding:8px 12px}
-#days{font-weight:800;font-size:14.5px}
+
 /* ticket screen */
 #win>.card{gap:10px}
 #win h2{margin:0;font-size:34px;line-height:1.05}
@@ -101,6 +96,10 @@ button{font-family:inherit}
 .board{background:rgba(0,0,0,.2);border-radius:12px;padding:8px 10px;text-align:left;font-size:15px}
 .board ol{margin:0;padding:0;list-style:none;display:grid;gap:3px}
 .board li{display:grid;grid-template-columns:2.2em 1fr auto;gap:6px;align-items:center;padding:4px 6px;border-radius:8px}
+.board li.m1{background:rgba(255,214,90,.30)}
+.board li.m2{background:rgba(226,230,238,.24)}
+.board li.m3{background:rgba(214,134,62,.30)}
+.board li.m1 .r,.board li.m2 .r,.board li.m3 .r{font-size:19px;line-height:1}
 .board li.me{background:var(--gold2);color:var(--ink)}
 .board .r{font-weight:800;color:var(--gold2)}
 .board li.me .r{color:var(--ink)}
@@ -128,14 +127,8 @@ button{font-family:inherit}
   <div id="langs"><button type="button" data-l="en">English</button><button type="button" data-l="es">Español</button></div>
   <div class="kick" data-t="kicker"></div>
   <h1 class="display gold" data-t="title"></h1>
-  <div class="story">
-    <p class="st1" data-t="story1"></p>
-    <p class="st2 display gold" data-t="story2"></p>
-  </div>
   <p class="about" data-t="about"></p>
-  <p class="lead" data-t="lead"></p>
-  <div class="evt"><span data-t="evt"></span><span id="days" class="gold"></span></div>
-  <label class="nameLbl" for="name" data-t="nameLbl"></label>
+  <div class="evt"><span data-t="evt"></span><span id="days"></span></div>
   <input id="name" type="text" maxlength="16" autocomplete="given-name" enterkeyhint="go" data-ph="namePh">
   <div id="nameMsg" class="nameMsg"></div>
   <button id="play" class="btn primary" type="button" style="font-size:19px;padding:13px" disabled data-t="loading"></button>
@@ -181,23 +174,21 @@ import {mergeGeometries} from 'three/addons/utils/BufferGeometryUtils.js';
 const GOAL=12;
 const L={
  en:{kicker:'ROAD TO THE BRIGHTEST CHRISTMAS',kickS:'THE BRIGHTEST CHRISTMAS',title:'Catch the Gifts',
-  story1:'Long ago, wise men followed a star to bring their best gifts to Jesus.',story2:'This Christmas, how can Jesus feel our love?',
-  about:'The best Christmas gift is a warm, fun-filled, family-friendly event that ignites the fire of your faith 🔥 and moves you to live it.',
-  lead:'Catch 12 falling gifts and light the tree. How fast can you do it?',evt:'Sat, Dec 5 · 10 AM & 2 PM · Anaheim · Free',
-  nameLbl:'Type your first name to play',typeName:'Type your first name in the box first 👆',
-  loading:'Loading…',play:'Play',more:'Click More for instructions',less:'Hide instructions',
+  about:'A fun game to play on the road to the brightest Christmas! Catch the gifts and light the tree while you count down to Dec 5: a free, warm, family-friendly event that will ignite the fire of your faith. 🔥',
+  evt:'Sat, Dec 5 · 10 AM & 2 PM · Anaheim',typeName:'Type your first name in the box first 👆',
+  loading:'Loading…',play:'Play',more:'Click for Instructions',less:'Hide instructions',
   how1:'🎁 All 12 presents drop by parachute at the same time. Walk over one to catch it.',
   how2:'⏱️ The clock starts when you tap Play and stops on the last present. Beat your best time!',
   how3:'🕹️ Walk with the joystick, or W A S D / the arrow keys.',
-  days:n=>n>1?`Dec 5 is ${n} days away`:n===1?'Dec 5 is tomorrow!':n===0?'Dec 5 is today!':'',
+  days:n=>n>1?`${n} days to go`:n===1?'Tomorrow!':n===0?'Today!':'',
   go:'Go! Catch all 12!',gift:n=>`GIFT ${n} OF ${GOAL}`,
   winHn:n=>n?`You lit the tree, ${n}!`:'You lit the tree!',claimH:'You are invited!',tag:n=>'For: '+(n||'You'),invite:'The wise men brought their gifts to Jesus. Come find out what gift we can bring Him:',seminarQ:'“How Can Jesus Feel Our Love?”',
   warm:'A warm, fun-filled Christmas event for the whole family. It is free, and everyone is welcome.',
   already:"Coming to the event? Don't forget your ticket. Tap the button so you don't forget!",when:'Sat, Dec 5, 2026 · 10 AM & 2 PM · William A. Cook Auditorium, Anaheim',score:(t,b,nb)=>`You caught ${GOAL} gifts in <b>${t}</b>`+(nb?' · New best!':` · Best: ${b}`),
   seeYou:'SEE YOU THERE',seminar:'How Can Jesus Feel Our Love?',date:'Saturday, Dec 5, 2026',both:'10 AM & 2 PM',at:h=>h===10?'10 AM':'2 PM',
-  top10:'🏆 Top 10',post:'🏆 Post my time',retry:'🏆 Try posting again',posting:'Posting…',rankMsg:n=>`You're #${n}!`,needName:'Your name needs at least 2 letters',lettersOnly:'Letters only, please (no numbers or symbols)',
+  top10:'🏆 High Scores',post:'🏆 Post my time',retry:'🏆 Try posting again',posting:'Posting…',rankMsg:n=>`You're #${n}!`,needName:'Your name needs at least 2 letters',lettersOnly:'Letters only, please (no numbers or symbols)',
   boardEmpty:'No times yet. Be the first!',boardErr:"Couldn't load the scores. Try again.",boardLoading:'Loading…',badName:'Please use a different name.',badTime:"That time can't be posted.",
-  namePh:'Your first name',signup:'🎟️ Get my free ticket',dir:'📍 Directions',share:'💌 Share the Love: invite a friend',again:'↻ Play again',
+  namePh:'Type your first name to play',signup:'🎟️ Get my free ticket',dir:'📍 Directions',share:'💌 Share the Love: invite a friend',again:'↻ Play again',
   copied:'Link copied! Paste it to a friend.',
   shareText:t=>`🎁 I caught all the gifts in ${t}. How fast can you catch all the gifts? Play, then come with me to "How Can Jesus Feel Our Love?" on Sat, Dec 5 in Anaheim!`,
   calTitle:'How Can Jesus Feel Our Love? (Dec 5 Seminar)',
@@ -215,23 +206,21 @@ const L={
    'Two times to pick from: 10 AM or 2 PM.',
    'See you at the William A. Cook Auditorium in Anaheim!']},
  es:{kicker:'RUMBO A LA NAVIDAD MÁS BRILLANTE',kickS:'LA NAVIDAD MÁS BRILLANTE',title:'Atrapa los Regalos',
-  story1:'Hace mucho tiempo, unos sabios siguieron una estrella para llevarle sus mejores regalos a Jesús.',story2:'Esta Navidad, ¿cómo puede Jesús sentir nuestro amor?',
-  about:'El mejor regalo de Navidad es un evento cálido, divertido y para toda la familia que enciende el fuego de tu fe 🔥 y te mueve a vivirla.',
-  lead:'Atrapa 12 regalos que caen y enciende el árbol. ¿Qué tan rápido puedes hacerlo?',evt:'Sáb. 5 de dic. · 10:00 a. m. y 2:00 p. m. · Anaheim · Gratis',
-  nameLbl:'Escribe tu nombre para jugar',typeName:'Primero escribe tu nombre en el cuadro 👆',
-  loading:'Cargando…',play:'Jugar',more:'Toca Más para ver las instrucciones',less:'Ocultar instrucciones',
+  about:'¡Un juego divertido para el camino a la Navidad más brillante! Atrapa los regalos y enciende el árbol mientras llega el 5 de diciembre: un evento gratis, cálido y familiar que encenderá el fuego de tu fe. 🔥',
+  evt:'Sáb. 5 de dic. · 10:00 a. m. y 2:00 p. m. · Anaheim',typeName:'Primero escribe tu nombre en el cuadro 👆',
+  loading:'Cargando…',play:'Jugar',more:'Toca para ver las instrucciones',less:'Ocultar instrucciones',
   how1:'🎁 Los 12 regalos bajan en paracaídas al mismo tiempo. Camina hasta uno para atraparlo.',
   how2:'⏱️ El reloj empieza cuando tocas Jugar y para con el último regalo. ¡Supera tu mejor tiempo!',
   how3:'🕹️ Camina con el joystick, o con W A S D / las flechas.',
-  days:n=>n>1?`Faltan ${n} días para el 5 de diciembre`:n===1?'¡El 5 de diciembre es mañana!':n===0?'¡El 5 de diciembre es hoy!':'',
+  days:n=>n>1?`Faltan ${n} días`:n===1?'¡Es mañana!':n===0?'¡Es hoy!':'',
   go:'¡Ya! ¡Atrapa los 12!',gift:n=>`REGALO ${n} DE ${GOAL}`,
   winHn:n=>n?`¡Encendiste el árbol, ${n}!`:'¡Encendiste el árbol!',claimH:'¡Estás invitado!',tag:n=>'Para: '+(n||'Ti'),invite:'Los sabios le llevaron sus regalos a Jesús. Ven a descubrir qué regalo podemos llevarle nosotros:',seminarQ:'“¿Cómo puede Jesús sentir nuestro amor?”',
   warm:'Un evento navideño cálido y divertido para toda la familia. Es gratis y todos son bienvenidos.',
   already:'¿Vienes al evento? No olvides tu boleto. ¡Toca el botón para que no se te olvide!',when:'Sáb. 5 de dic. de 2026 · 10:00 a. m. y 2:00 p. m. · William A. Cook Auditorium, Anaheim',score:(t,b,nb)=>`Atrapaste ${GOAL} regalos en <b>${t}</b>`+(nb?' · ¡Nuevo récord!':` · Récord: ${b}`),
   seeYou:'¡TE ESPERAMOS!',seminar:'¿Cómo puede Jesús sentir nuestro amor?',date:'Sábado 5 de diciembre de 2026',both:'10:00 a. m. y 2:00 p. m.',at:h=>h===10?'10:00 a. m.':'2:00 p. m.',
-  top10:'🏆 Top 10',post:'🏆 Publicar mi tiempo',retry:'🏆 Intentar publicar otra vez',posting:'Publicando…',rankMsg:n=>`¡Quedaste #${n}!`,needName:'Tu nombre necesita al menos 2 letras',lettersOnly:'Solo letras, por favor (sin números ni símbolos)',
+  top10:'🏆 Mejores tiempos',post:'🏆 Publicar mi tiempo',retry:'🏆 Intentar publicar otra vez',posting:'Publicando…',rankMsg:n=>`¡Quedaste #${n}!`,needName:'Tu nombre necesita al menos 2 letras',lettersOnly:'Solo letras, por favor (sin números ni símbolos)',
   boardEmpty:'Todavía no hay tiempos. ¡Sé el primero!',boardErr:'No se pudieron cargar los tiempos. Intenta otra vez.',boardLoading:'Cargando…',badName:'Por favor usa otro nombre.',badTime:'Ese tiempo no se puede publicar.',
-  namePh:'Tu nombre',signup:'🎟️ Obtener mi boleto gratis',dir:'📍 Cómo llegar',share:'💌 Comparte el amor: invita a un amigo',again:'↻ Jugar otra vez',
+  namePh:'Escribe tu nombre para jugar',signup:'🎟️ Obtener mi boleto gratis',dir:'📍 Cómo llegar',share:'💌 Comparte el amor: invita a un amigo',again:'↻ Jugar otra vez',
   copied:'¡Enlace copiado! Pégalo para un amigo.',
   shareText:t=>`🎁 Atrapé todos los regalos en ${t}. ¿Qué tan rápido puedes atraparlos tú? Juega y ven conmigo a "¿Cómo puede Jesús sentir nuestro amor?" el sábado 5 de diciembre en Anaheim.`,
   calTitle:'¿Cómo puede Jesús sentir nuestro amor? (Seminario 5 de dic)',
@@ -601,7 +590,7 @@ function drawBoard(el,data){const D=tr();el.hidden=false;
  if(!data){el.innerHTML=`<div class="msg">${D.boardErr}</div>`;return;}
  const you=(el.id==='boardWin'&&myRank)?`<div class="you">${D.rankMsg(myRank)}</div>`:'';
  if(!data.top.length){el.innerHTML=you+`<div class="msg">${D.boardEmpty}</div>`;return;}
- el.innerHTML=you+'<ol>'+data.top.map((e,i)=>`<li class="${e.me?'me':''}"><span class="r">${i+1}</span><span>${esc(e.n)}</span><span class="t">${fmtR(e.t)}</span></li>`).join('')+'</ol>';}
+ el.innerHTML=you+'<ol>'+data.top.map((e,i)=>`<li class="${i<3?'m'+(i+1):''}${e.me?' me':''}"><span class="r">${['🥇','🥈','🥉'][i]||i+1}</span><span>${esc(e.n)}</span><span class="t">${fmtR(e.t)}</span></li>`).join('')+'</ol>';}
 async function loadBoard(el){drawBoard(el,'loading');
  try{const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),12000);const r=await fetch(BOARD_URL+'?pid='+encodeURIComponent(PID),{signal:ctl.signal});clearTimeout(to);const j=await r.json();if(!j.ok)throw 0;lastBoard=j;drawBoard(el,j);}
  catch(e){drawBoard(el,null);}}
