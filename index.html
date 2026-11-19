@@ -4,15 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <title>Catch the Gifts</title>
-<meta name="description" content="Catch 12 presents and light the tree! Sat, Dec 5 · 10 AM & 2 PM · William A. Cook Auditorium, Anaheim.">
+<meta name="description" content="Tap to play Catch the Gifts. Sat, Dec 5 · 10 AM &amp; 2 PM · William A. Cook Auditorium, Anaheim.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Catch the Gifts · Road to Dec 5">
-<meta property="og:description" content="Catch 12 presents and light the tree! Sat, Dec 5 · 10 AM & 2 PM · William A. Cook Auditorium, Anaheim.">
-<meta property="og:image" content="https://roadtodec5.github.io/preview.jpg">
+<meta property="og:title" content="How fast can you catch all the gifts? 🎁">
+<meta property="og:site_name" content="Catch the Gifts">
+<meta property="og:description" content="Tap to play Catch the Gifts. Sat, Dec 5 · 10 AM &amp; 2 PM · William A. Cook Auditorium, Anaheim.">
+<meta property="og:image" content="https://roadtodec5.github.io/card.jpg">
+<meta property="og:image:type" content="image/jpeg">
+<meta property="og:image:alt" content="How fast can you catch all the gifts? Tap to play.">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://roadtodec5.github.io/">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How fast can you catch all the gifts? 🎁">
+<meta name="twitter:image" content="https://roadtodec5.github.io/card.jpg">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎁%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Figtree:wght@400;600;700;800&display=swap">
@@ -189,7 +194,7 @@ const L={
   boardEmpty:'No times yet. Be the first!',boardErr:"Couldn't load the scores. Try again.",boardLoading:'Loading…',badName:'Please use a different name.',badTime:"That time can't be posted.",
   namePh:'Your first name',signup:'CLICK HERE to get your Ticket!',dir:'📍 Directions',share:'💌 Share the Love: invite a friend',again:'↻ Play again',
   copied:'Link copied! Paste it to a friend.',
-  shareText:'I\'m going to "How Can Jesus Feel Our Love?" on Sat, Dec 5 in Anaheim. Play this and come with me!',
+  shareText:t=>`🎁 I caught all the gifts in ${t}. How fast can you catch all the gifts? Play, then come with me to "How Can Jesus Feel Our Love?" on Sat, Dec 5 in Anaheim!`,
   calTitle:'How Can Jesus Feel Our Love? (Dec 5 Seminar)',
   teasers:[
    'The wise men traveled far to bring Jesus a gift.',
@@ -218,7 +223,7 @@ const L={
   boardEmpty:'Todavía no hay tiempos. ¡Sé el primero!',boardErr:'No se pudieron cargar los tiempos. Intenta otra vez.',boardLoading:'Cargando…',badName:'Por favor usa otro nombre.',badTime:'Ese tiempo no se puede publicar.',
   namePh:'Tu nombre',signup:'¡HAZ CLIC AQUÍ para obtener tu boleto!',dir:'📍 Cómo llegar',share:'💌 Comparte el amor: invita a un amigo',again:'↻ Jugar otra vez',
   copied:'¡Enlace copiado! Pégalo para un amigo.',
-  shareText:'Voy a "¿Cómo puede Jesús sentir nuestro amor?" el sábado 5 de diciembre en Anaheim. ¡Juega esto y ven conmigo!',
+  shareText:t=>`🎁 Atrapé todos los regalos en ${t}. ¿Qué tan rápido puedes atraparlos tú? Juega y ven conmigo a "¿Cómo puede Jesús sentir nuestro amor?" el sábado 5 de diciembre en Anaheim.`,
   calTitle:'¿Cómo puede Jesús sentir nuestro amor? (Seminario 5 de dic)',
   teasers:[
    'Los sabios viajaron lejos para llevarle un regalo a Jesús.',
@@ -563,9 +568,9 @@ $('#name').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter'
 function openURL(u){const w=window.open(u,'_blank','noopener');if(!w)location.href=u;}
 $('#dir').onclick=()=>openURL(EVENT.maps);
 $('#signup').onclick=()=>{gotT=true;fillTicket();openURL(EVENT.signup[lang]||EVENT.signup.en);};
-$('#share').onclick=async()=>{const D=tr(),url=EVENT.game;
- if(navigator.share){try{await navigator.share({title:D.title,text:D.shareText,url});return;}catch(e){if(e&&e.name==='AbortError')return;}}
- try{await navigator.clipboard.writeText(D.shareText+' '+url);toast(D.copied);}catch(e){prompt('',D.shareText+' '+url);}};
+$('#share').onclick=async()=>{const D=tr(),url=EVENT.game,msg=D.shareText(fmtR(win.secs));
+ if(navigator.share){try{await navigator.share({title:D.title,text:msg,url});return;}catch(e){if(e&&e.name==='AbortError')return;}}
+ try{await navigator.clipboard.writeText(msg+' '+url);toast(D.copied);}catch(e){prompt('',msg+' '+url);}};
 
 /* ================= Top 10 board ================= */
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
