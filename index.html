@@ -526,7 +526,7 @@ $('#mute').onclick=()=>{audio();setMute(!muted);};setMute(muted);
 function toast(msg,ms=2600){const t=$('#toast');t.textContent=msg;t.style.display='block';clearTimeout(toast.h);toast.h=setTimeout(()=>t.style.display='none',ms);}
 function tip(n,text,ms=3400){$('#tipN').textContent=n||'';$('#tipN').hidden=!n;$('#tipT').textContent=text;$('#tip').classList.add('on');tipTimer=ms/1000;}
 
-function startGame(){if(nameState()!=='ok'){const n=$('#name');n.focus();updatePlay();if(!$('#nameMsg').textContent)$('#nameMsg').textContent=tr().typeName;n.classList.remove('shake');void n.offsetWidth;n.classList.add('shake');return;}audio();state='play';caught=0;tStart=performance.now()/1000;tEnd=0;winT=-1;cheer=0;
+function startGame(){if(nameState()!=='ok'){const n=$('#name');n.focus();updatePlay();if(!$('#nameMsg').textContent)$('#nameMsg').textContent=tr().typeName;n.classList.remove('shake');void n.offsetWidth;n.classList.add('shake');return;}audio();state='play';caught=0;getPass();tStart=performance.now()/1000;tEnd=0;winT=-1;cheer=0;
  pool.forEach(p=>{p.state='off';p.g.visible=p.ring.visible=p.dot.visible=false;});placed.forEach(p=>{p.g.visible=false;p.t0=-1;});
  posted=false;myRank=0;$('#post').hidden=true;$('#boardWin').hidden=true;$('#boardStart').hidden=true;$('#name').blur();
  player.pos.set(0,0,10);player.vel.set(0,0,0);player.yaw=Math.PI;venueDoors.forEach(m=>m.emissiveIntensity=0);dropAll();whoosh();
@@ -596,9 +596,12 @@ async function loadBoard(el){drawBoard(el,'loading');
  catch(e){drawBoard(el,null);}}
 $('#topBtn').onclick=()=>{const el=$('#boardStart');if(!el.hidden){el.hidden=true;return;}loadBoard(el);};
 /* the finish screen posts the time by itself; the button only shows if that fails */
-async function postScore(){const D=tr(),nm=$('#name').value.trim(),b=$('#post');if(posted||posting)return;posting=true;b.hidden=true;drawBoard($('#boardWin'),'loading');
+let runTok='',runN=0;
+/* the score board hands out a signed pass when Play is tapped; a time without one is refused */
+function getPass(tries=2){const my=++runN;runTok='';const go=n=>fetch(BOARD_URL,{method:'POST',body:JSON.stringify({start:1,pid:PID})}).then(r=>r.json()).then(j=>{if(my===runN&&j.ok&&j.tok)runTok=j.tok;else if(my===runN&&n>1)setTimeout(()=>go(n-1),2500);}).catch(()=>{if(my===runN&&n>1)setTimeout(()=>go(n-1),2500);});go(tries);}
+async function postScore(){const D=tr(),nm=$('#name').value.trim(),b=$('#post');if(posted||posting)return;if(!runTok){posted=true;b.hidden=true;loadBoard($('#boardWin'));return;}posting=true;b.hidden=true;drawBoard($('#boardWin'),'loading');
  try{const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),15000);
-  const r=await fetch(BOARD_URL,{method:'POST',body:JSON.stringify({name:nm,time:win.secs,lang,pid:PID}),signal:ctl.signal});clearTimeout(to);const j=await r.json();
+  const r=await fetch(BOARD_URL,{method:'POST',body:JSON.stringify({name:nm,time:win.secs,lang,pid:PID,tok:runTok}),signal:ctl.signal});clearTimeout(to);const j=await r.json();
   if(!j.ok){if(j.why==='time'||j.why==='name'){$('#boardWin').innerHTML=`<div class="msg">${j.why==='name'?D.badName:D.badTime}</div>`;posted=true;}else{drawBoard($('#boardWin'),null);b.hidden=false;}return;}
   posted=true;myRank=j.rank;lastBoard=j;drawBoard($('#boardWin'),j);chime([79,84,88],.16);}
  catch(e){drawBoard($('#boardWin'),null);b.hidden=false;}
@@ -661,7 +664,7 @@ resize();makeSharedTex();buildTown();setupActors();applyLang();
 requestAnimationFrame(frame);
 (document.fonts?document.fonts.ready:Promise.resolve()).then(()=>{ready=true;applyLang();updatePlay();});
 setTimeout(()=>{if(!ready){ready=true;applyLang();updatePlay();}},2500);
-window.__game={tick(s){const n=Math.round(s/.033);for(let i=0;i<n;i++){T+=.033;step(.033);}last=performance.now();composer.render();return T;},get state(){return state;},get caught(){return caught;},start:startGame,dbg(){return{T,nextSpawn,player:[player.pos.x,player.pos.z],pool:pool.map(p=>[p.state,+p.x.toFixed(1),+p.z.toFixed(1),+p.y.toFixed(1)])};},
+if(/^(localhost|127\.0\.0\.1)$/.test(location.hostname))window.__game={tick(s){const n=Math.round(s/.033);for(let i=0;i<n;i++){T+=.033;step(.033);}last=performance.now();composer.render();return T;},get state(){return state;},get caught(){return caught;},start:startGame,dbg(){return{T,nextSpawn,player:[player.pos.x,player.pos.z],pool:pool.map(p=>[p.state,+p.x.toFixed(1),+p.z.toFixed(1),+p.y.toFixed(1)])};},
  /* test hook: catch the next present right away */ grab(){const p=pool.find(q=>q.state==='fall'||q.state==='ground');if(p){player.pos.set(p.x,0,p.z);player.vel.set(0,0,0);if(p.state==='fall')p.t0=Math.min(p.t0,T-FALL*.9);}},
  winNow(){while(caught<GOAL){const p=pool.find(q=>q.state==='fall'||q.state==='ground');if(!p)break;p.y=0;catchGift(p);}}};
 </script>
