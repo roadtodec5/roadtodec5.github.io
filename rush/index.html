@@ -582,7 +582,7 @@ $('#share').onclick=async()=>{const D=tr(),url=EVENT.game,msg=D.shareText(win.se
 /* ================= Top 10 board ================= */
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 let posted=false,posting=false,lastBoard=null,myRank=0;
-/* one random id per phone, so the board shows each player once (their best time) */
+/* one random id per phone; the board shows each name on a phone once (its best time) */
 const PID=(()=>{let p=store.get('pid');if(!p||!/^[A-Za-z0-9]{8,40}$/.test(p)){p=Math.random().toString(36).slice(2,12)+Date.now().toString(36);store.set('pid',p);}return p;})();
 /* name filter: same lists as the score script (keep both in sync) */
 const BAD_PART=['fuck','fuk','fck','fvck','phuck','shit','bitch','biatch','cunt','pussy','dick','cock','whore','slut','nigga','nigger','faggot','asshole','dumbass','jackass','bastard','damn','porn','penis','vagina','dildo','horny','retard','idiot','stupid','hitler','puta','puto','pendej','verga','chinga','mierda','culero','cabron','pinche','joto','mamon','estupid','imbecil'];
@@ -593,12 +593,14 @@ function isBadName(raw){const n=normN(raw),all=squashN(n);if(BAD_PART.some(w=>al
  const words=n.split(/[^a-z]+/).filter(Boolean).map(trim3N);words.push(trim3N(n.replace(/[^a-z]/g,'')));return BAD_WORD.some(w=>words.includes(trim3N(w)));}
 function nameState(){const v=$('#name').value.trim(),letters=v.replace(/[^\p{L}]/gu,'').length;if(isBadName(v))return'bad';if(/[^\p{L}\p{M} .'\-]/u.test(v))return'chars';if(letters<2)return'short';return'ok';}
 function updatePlay(){const s=nameState(),D=tr();$('#play').disabled=!ready;$('#nameMsg').textContent=s==='bad'?D.badName:s==='chars'?D.lettersOnly:(s==='short'&&$('#name').value.trim()?D.needName:'');}
+/* the board keeps one line per name on each phone (two people can share a phone); light up only the name typed now */
+const isMine=n=>{const v=$('#name').value.replace(/\s+/g,' ').trim().toLowerCase();return !v||String(n).toLowerCase()===v;};
 function drawBoard(el,data){const D=tr();el.hidden=false;
  if(data==='loading'){el.innerHTML=`<div class="msg">${el.id==='boardWin'?D.posting:D.boardLoading}</div>`;return;}
  if(!data){el.innerHTML=`<div class="msg">${D.boardErr}</div>`;return;}
  const you=(el.id==='boardWin'&&myRank)?`<div class="you">${D.rankMsg(myRank)}</div>`:'';
  if(!data.top.length){el.innerHTML=you+`<div class="msg">${D.boardEmpty}</div>`;return;}
- el.innerHTML=you+'<ol>'+data.top.map((e,i)=>`<li class="${i<3?'m'+(i+1):''}${e.me?' me':''}"><span class="r">${['🥇','🥈','🥉'][i]||i+1}</span><span>${esc(e.n)}</span><span class="t">${e.t} 🎁</span></li>`).join('')+'</ol>';}
+ el.innerHTML=you+'<ol>'+data.top.map((e,i)=>`<li class="${i<3?'m'+(i+1):''}${e.me&&isMine(e.n)?' me':''}"><span class="r">${['🥇','🥈','🥉'][i]||i+1}</span><span>${esc(e.n)}</span><span class="t">${e.t} 🎁</span></li>`).join('')+'</ol>';}
 async function loadBoard(el){drawBoard(el,'loading');
  try{const ctl=new AbortController(),to=setTimeout(()=>ctl.abort(),12000);const r=await fetch(BOARD_URL+'?board=rush&pid='+encodeURIComponent(PID),{signal:ctl.signal});clearTimeout(to);const j=await r.json();if(!j.ok)throw 0;lastBoard=j;drawBoard(el,j);}
  catch(e){drawBoard(el,null);}}
